@@ -25,7 +25,7 @@ public class CharCounterTest {
 
     }
 
-    /*	
+    	
     @Test
     public void howManyShouldReturnNegativeWhenCharIsSymbolAt(){
         
@@ -34,8 +34,8 @@ public class CharCounterTest {
         Assert.assertEquals(-2, counter.howMany('@'));
 
     }
-
-	@Test
+    /*
+    @Test
     public void countAllShouldReturnAnArrayWithAllCharsCount(){
         
         CharCounter counter = new CharCounter("hello world");
