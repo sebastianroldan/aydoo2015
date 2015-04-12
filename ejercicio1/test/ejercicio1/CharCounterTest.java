@@ -15,7 +15,7 @@ public class CharCounterTest {
 
     }
 
-    /*
+    
     @Test
     public void howManyShouldReturnNegativeWhenCharIsSymbolMoney(){
         
@@ -35,7 +35,8 @@ public class CharCounterTest {
 
     }
 
-	@Test
+    /*
+    @Test
     public void countAllShouldReturnAnArrayWithAllCharsCount(){
         
         CharCounter counter = new CharCounter("hello world");
