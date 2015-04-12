@@ -10,12 +10,17 @@ public class CharCounter {
 	
 	public int howMany(char character){
 		int count = 0;
-		for (int i = 0; i < stringToCount.length(); i++) {
+		if (character == '$'){
+			count = -1;
+		}else{
+		
+			for (int i = 0; i < stringToCount.length(); i++) {
 			
-			if (stringToCount.charAt(i) == character) {
-				count++;
+				if (stringToCount.charAt(i) == character) {
+					count++;
+				}
 			}
-		}
+		}	
 		return count;		
 	}
 }
