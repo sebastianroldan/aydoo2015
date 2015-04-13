@@ -35,7 +35,7 @@ public class CharCounterTest {
 
     }
 
-    /*
+    
     @Test
     public void countAllShouldReturnAnArrayWithAllCharsCount(){
         
@@ -46,5 +46,5 @@ public class CharCounterTest {
         Assert.assertTrue(result.get('z').equals(0));
         Assert.assertTrue(result.get('l').equals(3));
     }
-    */	
+    	
 }
