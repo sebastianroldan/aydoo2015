@@ -35,7 +35,7 @@ public class CharCounter {
 		Integer count = 0;
 		for (char letter='a'; letter <= 'z'; ++letter) { 
 			count = this.howMany(letter); 
-40 			charMap.put(letter, count); 
+ 			charMap.put(letter, count); 
 		}
 		return charMap;
 	}
