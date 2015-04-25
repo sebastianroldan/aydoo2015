@@ -54,4 +54,11 @@ public class AtraccionTest {
 		Assert.assertEquals(3000,coordenadasXeY.getCoordenadaY());
 	}
 	
+	@Test
+	public void obtenerCupoMaximo(){
+		
+		int cupo;
+		cupo = this.atraccion.getCupoMaximo();
+		Assert.assertEquals(15,cupo);
+	}
 }
