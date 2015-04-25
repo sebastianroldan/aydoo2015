@@ -1,5 +1,7 @@
 package ejercicio1;
 
+import java.util.HashMap; 
+
 public class CharCounter {
 
 	private String stringToCount;
@@ -26,5 +28,15 @@ public class CharCounter {
 		}
 		
 		return count;		
+	}
+	
+	public HashMap<Character,Integer> countAll(){
+		HashMap charMap = new HashMap<Character,Integer>();
+		Integer count = 0;
+		for (char letter='a'; letter <= 'z'; ++letter) { 
+			count = this.howMany(letter); 
+ 			charMap.put(letter, count); 
+		}
+		return charMap;
 	}
 }
