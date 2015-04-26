@@ -47,7 +47,7 @@ public class TuristaTest {
 	}
 	
 	@Test
-	public void obtenerPreferencia(){
+	public void obtenerPreferenciaTest(){
 		
 		Assert.assertTrue(TipoDeAtraccion.AVENTURA == this.seba.getPreferencia());		
 	}

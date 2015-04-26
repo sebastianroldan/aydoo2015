@@ -1,4 +1,5 @@
 package turismoTest;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
@@ -30,7 +31,7 @@ public class AtraccionTest {
     }
 	
 	@Test
-	public void obtenerTiempoNecesarioParaRealizarla(){
+	public void obtenerTiempoNecesarioParaRealizarlaTest(){
 		
 		int tiempo;
 		tiempo = this.atraccion.getTiempoNecesario();
@@ -38,7 +39,7 @@ public class AtraccionTest {
 	}
 	
 	@Test
-	public void obtenerCosteDeAtraccion(){
+	public void obtenerCosteDeAtraccionTest(){
 		
 		double costo;
 		costo = this.atraccion.getCostoDeAtraccion();
@@ -46,16 +47,16 @@ public class AtraccionTest {
 	}
 
 	@Test
-	public void obtenerCoordenadas(){
+	public void obtenerCoordenadasTest(){
 		
 		Coordenada coordenadasXeY;
 		coordenadasXeY = this.atraccion.getCoordenadas();
-		Assert.assertEquals(10000,coordenadasXeY.getCoordenadaX());
-		Assert.assertEquals(3000,coordenadasXeY.getCoordenadaY());
+		Assert.assertEquals(10000,coordenadasXeY.getCoordenadaX(),0);
+		Assert.assertEquals(3000,coordenadasXeY.getCoordenadaY(),0);
 	}
 	
 	@Test
-	public void obtenerCupoMaximo(){
+	public void obtenerCupoMaximoTest(){
 		
 		int cupo;
 		cupo = this.atraccion.getCupoMaximo();

@@ -2,30 +2,41 @@ package turismo;
 
 public class Coordenada {
 	
-	private int coordenadaX;
-	private int coordenadaY;
+	private double coordenadaX;
+	private double coordenadaY;
 
-	public Coordenada(int x, int y) {
+	public Coordenada(double x, double y) {
 		this.coordenadaX = x;
 		this.coordenadaY = y;
 	}
 
-	public int getCoordenadaX() {
+	public double getCoordenadaX() {
 		return coordenadaX;
 	}
 
-	public void setCoordenadaX(int coordenadaX) {
+	public void setCoordenadaX(double coordenadaX) {
 		this.coordenadaX = coordenadaX;
 	}
 
-	public int getCoordenadaY() {
+	public double getCoordenadaY() {
 		return coordenadaY;
 	}
 
-	public void setCoordenadaY(int coordenadaY) {
+	public void setCoordenadaY(double coordenadaY) {
 		this.coordenadaY = coordenadaY;
 	}
 	
+	public double calcularDistanciaDesdeEstaCoordenada(Coordenada punto){
+		double restaCoordenadasX = this.coordenadaX-punto.getCoordenadaX();
+		double restaCoordenadasY = this.coordenadaY-punto.getCoordenadaY();
+		double Xcuadrado = restaCoordenadasX*restaCoordenadasX;
+		double Ycuadrado = restaCoordenadasY*restaCoordenadasY;
+		double distancia = Math.sqrt(Xcuadrado + Ycuadrado);
+		return distancia; 
+	}
 	
-
+	public static double calcularDistanciesEntre(Coordenada punto1, Coordenada punto2){		
+		return punto1.calcularDistanciaDesdeEstaCoordenada(punto2);
+	}
+	
 }
