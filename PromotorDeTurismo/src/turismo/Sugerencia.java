@@ -16,25 +16,20 @@ public class Sugerencia {
 	
 	
 	public double getCostoTotal(){
-		Iterator<Atraccion> iteradorDeAtracciones = recorrido.iterator();
 		double costoTotal = 0;
-		while (iteradorDeAtracciones.hasNext()){
-			Atraccion atraccionActual = iteradorDeAtracciones.next();
+		for (Atraccion atraccionActual: recorrido){			
 			costoTotal = costoTotal + atraccionActual.getCostoDeAtraccion();
 		}
 		return costoTotal; 
 	}
 	
-	public double getTiempoTotal(int velocidadDeTraslado){
-		Iterator<Atraccion> iteradorDeAtracciones = recorrido.iterator();
+	public double getTiempoTotal(int velocidadDeTraslado){		
 		double tiempoTotal = 0;
 		Coordenada puntoActual = new Coordenada(100,500);
 		double tiempoDeTraslado = 0;
 		double distanciaDeTraslado = 0;
 		
-		while (iteradorDeAtracciones.hasNext()){
-			Atraccion atraccionProxima = iteradorDeAtracciones.next();
-			
+		for (Atraccion atraccionProxima: recorrido){			
 			distanciaDeTraslado = puntoActual.calcularDistanciaDesdeEstaCoordenada(
 					atraccionProxima.getCoordenadas());
 			tiempoDeTraslado = distanciaDeTraslado/velocidadDeTraslado;
