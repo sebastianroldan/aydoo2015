@@ -101,7 +101,7 @@ public class Sugerencia {
 	}
 	
 	private  List<Atraccion> ordenarAtraccionesPorMenorPrecio(List<Atraccion> atracciones){		
-		OrdenadorDeAtraccionesPorCostoMenor ordenadorPorCosto = new OrdenadorDeAtraccionesPorCostoMenor();;
+		OrdenadorDeAtraccionesPorCostoMenor ordenadorPorCosto = new OrdenadorDeAtraccionesPorCostoMenor();
 		atracciones.sort(ordenadorPorCosto);
 		return atracciones;
 	}
