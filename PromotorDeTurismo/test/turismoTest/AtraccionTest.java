@@ -33,9 +33,9 @@ public class AtraccionTest {
 	@Test
 	public void obtenerTiempoNecesarioParaRealizarlaTest(){
 		
-		int tiempo;
+		double tiempo;
 		tiempo = this.atraccion.getTiempoNecesario();
-		Assert.assertEquals(60,tiempo);
+		Assert.assertEquals(60,tiempo,0);
 	}
 	
 	@Test
@@ -62,4 +62,30 @@ public class AtraccionTest {
 		cupo = this.atraccion.getCupoMaximo();
 		Assert.assertEquals(15,cupo);
 	}
+	
+	@Test
+	public void obtenerCantidadDeVisitantes(){
+		
+		int visitantes;
+		visitantes = this.atraccion.getCantidadDeVisitantes();
+		Assert.assertEquals(0, visitantes);
+	} 
+	
+	@Test
+	public void agregarVisitanteConCupoLlenoTest(){
+		for (int i=0; i < 15; i++){
+			this.atraccion.agregarVisitante();
+		}
+		
+		int cantidadDeVisitantes = this.atraccion.getCantidadDeVisitantes();
+		
+		Assert.assertEquals(15, cantidadDeVisitantes);
+		
+		this.atraccion.agregarVisitante();
+		
+		cantidadDeVisitantes = this.atraccion.getCantidadDeVisitantes();
+		
+		Assert.assertEquals(15, cantidadDeVisitantes);
+	}
+	
 }

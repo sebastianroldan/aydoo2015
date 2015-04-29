@@ -5,25 +5,27 @@ public class Atraccion {
 	private String nombre;
 	private Coordenada coordenadas;
 	private double costoDeAtraccion;
-	private int tiempoNecesario;
+	private double tiempoNecesario;
+	private int cantidadDeVisitantes;
 	private int cupoMaximo;
 	private TipoDeAtraccion tipoAtraccion;
 
 	public Atraccion(String nombre, Coordenada coordenadas, double costo,
-			int tiempo, int cupo, TipoDeAtraccion tipo) {
+			double tiempo, int cupo, TipoDeAtraccion tipo) {
 		this.setNombre(nombre);
-		this.coordenadas = coordenadas;
-		this.costoDeAtraccion = costo;
-		this.tiempoNecesario = tiempo;
-		this.cupoMaximo = cupo;
+		this.setCoordenadas(coordenadas);
+		this.setCostoDeAtraccion(costo);
+		this.setTiempoNecesario(tiempo);
+		this.setCupoMaximo(cupo);
 		this.setTipoAtraccion(tipo);
+		this.cantidadDeVisitantes = 0;
 	}
 
-	public int getTiempoNecesario() {
+	public double getTiempoNecesario() {
 		return this.tiempoNecesario;
 	}
 	
-	public void setTiempoNecesario(int tiempo) {
+	public void setTiempoNecesario(double tiempo) {
 		this.tiempoNecesario = tiempo;
 	}
 
@@ -65,6 +67,20 @@ public class Atraccion {
 
 	public void setTipoAtraccion(TipoDeAtraccion tipoAtraccion) {
 		this.tipoAtraccion = tipoAtraccion;
+	}
+	
+	public int getCantidadDeVisitantes(){
+		return this.cantidadDeVisitantes;
+	}
+	
+	public void agregarVisitante(){
+		if (this.hayCupo()){
+			this.cantidadDeVisitantes++;
+		}
+	}
+
+	public boolean hayCupo() {
+		return this.getCupoMaximo() > this.getCantidadDeVisitantes();
 	}
 	
 }
