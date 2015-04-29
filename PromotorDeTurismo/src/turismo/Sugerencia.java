@@ -1,8 +1,10 @@
 package turismo;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class Sugerencia {
 	
@@ -102,14 +104,14 @@ public class Sugerencia {
 	
 	private  List<Atraccion> ordenarAtraccionesPorMenorPrecio(List<Atraccion> atracciones){		
 		OrdenadorDeAtraccionesPorCostoMenor ordenadorPorCosto = new OrdenadorDeAtraccionesPorCostoMenor();
-		atracciones.sort(ordenadorPorCosto);
+		Collections.sort(atracciones,ordenadorPorCosto );		
 		return atracciones;
 	}
 
 	private List<Atraccion> ordenarAtraccionesPorMenorTiempo(
 			List<Atraccion> atraccionesDisponibles) {
 		OrdenadorDeAtraccionesPorMenorTiempo ordenadorPorTiempo = new OrdenadorDeAtraccionesPorMenorTiempo();
-		atraccionesDisponibles.sort(ordenadorPorTiempo);
+		Collections.sort(atraccionesDisponibles,ordenadorPorTiempo);		
 		return atraccionesDisponibles;
 	}
 }
