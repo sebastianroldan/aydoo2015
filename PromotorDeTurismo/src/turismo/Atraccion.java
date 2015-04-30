@@ -83,4 +83,10 @@ public class Atraccion {
 		return this.getCupoMaximo() > this.getCantidadDeVisitantes();
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+			Atraccion atraccion = (Atraccion) obj;
+			return this.getNombre() == atraccion.getNombre();	
+	}
+	
 }

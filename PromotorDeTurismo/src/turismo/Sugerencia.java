@@ -1,7 +1,6 @@
 package turismo;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,19 +8,31 @@ import java.util.List;
 public class Sugerencia {
 	
 	private List<Atraccion> recorrido;
+	private Turista turista;	
+	private double costoFinal;
 	
-	public Sugerencia(){
+	public Sugerencia(Turista turista){
 		recorrido = new LinkedList<Atraccion>();
+		this.turista = turista;
 	}
 	
+	public void setCostoFinal(double montoAdescontar){
+		this.costoFinal = this.getCostoTotalSinPromociones() - montoAdescontar;
+	}
 	
-	public double getCostoTotal(){
+	public double getCostoFinal(){
+		return costoFinal;
+	}
+	
+	public double getCostoTotalSinPromociones(){
 		double costoTotal = 0;
 		for (Atraccion atraccionActual: recorrido){			
 			costoTotal = costoTotal + atraccionActual.getCostoDeAtraccion();
 		}
 		return costoTotal; 
 	}
+	
+	
 	
 	public double getTiempoTotal(int velocidadDeTraslado){		
 		double tiempoTotal = 0;
@@ -39,33 +50,52 @@ public class Sugerencia {
 		return tiempoTotal;
 	}
 
-	public void generarRecorridoConAtraccionesPorPresupuesto(
-			Turista turista, List<Atraccion> atraccionesDisponibles){
-		atraccionesDisponibles = ordenarAtraccionesPorMenorPrecio(atraccionesDisponibles);
-		this.generarRecorrido(turista, atraccionesDisponibles);				
+	public void generarRecorridoConAtraccionesPorMenorCosto(
+			List<Atraccion> atraccionesDisponibles){
+		Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorCostoMenor());
+		this.generarRecorrido(atraccionesDisponibles);				
 	}
 	
 	public void generarRecorridoConAtraccionesPorTiempoDisponible(
-			Turista turista, List<Atraccion> atraccionesDisponibles) {
-		atraccionesDisponibles = ordenarAtraccionesPorMenorTiempo(atraccionesDisponibles);
-		this.generarRecorrido(turista, atraccionesDisponibles);
+			 List<Atraccion> atraccionesDisponibles) {
+		Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorMenorTiempo());
+		this.generarRecorrido(atraccionesDisponibles);
 	}
 	
-	
-	
-	private void generarRecorrido(
-			Turista turista, List<Atraccion> atraccionesDisponibles){
-		Iterator<Atraccion> iteradorDeAtracciones = atraccionesDisponibles.iterator();
-		while (iteradorDeAtracciones.hasNext()){
-			Atraccion proximaAtraccion = iteradorDeAtracciones.next();
-			if (alcanzaPresupuestoPara(proximaAtraccion, turista) 
-					&& (alcanzaTiempoPara(proximaAtraccion, turista) && (proximaAtraccion.hayCupo()))){
-				proximaAtraccion.agregarVisitante();
-				recorrido.add(proximaAtraccion);
+	public void generarRecorridoConAtraccionesPorPreferencia(
+			 List<Atraccion> atraccionesDisponibles) {
+		for (Atraccion proximaAtraccion: atraccionesDisponibles){			
+			if (puedeHacer(proximaAtraccion) && (proximaAtraccion.getTipoAtraccion()==turista.getPreferencia()) ){				
+				proximaAtraccion.agregarVisitante();				
+				recorrido.add(proximaAtraccion);								
 			}
 		}
+		
 	}
 	
+	public void generarRecorridoConAtraccionesMasCostosas(
+			List<Atraccion> listaDeAtracciones) {
+		Collections.sort(listaDeAtracciones, new OrdenadorDeAtraccionesPorCostoMayor());
+		this.generarRecorrido(listaDeAtracciones);		
+	}
+	
+	public void generarRecorrido(List<Atraccion> atraccionesDisponibles){
+		for (Atraccion proximaAtraccion : atraccionesDisponibles){
+			if (puedeHacer(proximaAtraccion)){
+				proximaAtraccion.agregarVisitante();
+				recorrido.add(proximaAtraccion);		
+			}
+		}
+		this.setCostoFinal(0);
+	}
+	
+	private boolean puedeHacer(Atraccion proximaAtraccion) {
+		
+		return alcanzaPresupuestoPara(proximaAtraccion, turista) 
+				&& (alcanzaTiempoPara(proximaAtraccion, turista) && (proximaAtraccion.hayCupo()));
+	}
+
+
 	private boolean alcanzaTiempoPara(Atraccion atraccion, Turista turista) {
 		double tiempoDeTraslado = calcularTiempoDeViajeHastaLaProximaAtraccion(turista.getVelocidadDeTraslado(), atraccion.getCoordenadas());
 		return tiempoDeTraslado+atraccion.getTiempoNecesario()+this.getTiempoTotal(turista.getVelocidadDeTraslado()) <= turista.getTiempoDisponible();
@@ -87,26 +117,19 @@ public class Sugerencia {
 		tiempo = distancia/velocidadDeTraslado;
 		return tiempo;
 	}
-
-
+	
+	private boolean alcanzaPresupuestoPara(Atraccion atraccion, Turista turista){
+		return atraccion.getCostoDeAtraccion()+this.getCostoTotalSinPromociones()<= turista.getPresupuesto();
+	}
+	
 	public List<Atraccion> getListaDeAtracciones(){
 		return this.recorrido;
 	}
 	
-	private boolean alcanzaPresupuestoPara(Atraccion atraccion, Turista turista){
-		return atraccion.getCostoDeAtraccion()+this.getCostoTotal()<= turista.getPresupuesto();
-	}
 	
-	private  List<Atraccion> ordenarAtraccionesPorMenorPrecio(List<Atraccion> atracciones){		
-		OrdenadorDeAtraccionesPorCostoMenor ordenadorPorCosto = new OrdenadorDeAtraccionesPorCostoMenor();
-		Collections.sort(atracciones,ordenadorPorCosto );		
-		return atracciones;
-	}
-
-	private List<Atraccion> ordenarAtraccionesPorMenorTiempo(
-			List<Atraccion> atraccionesDisponibles) {
-		OrdenadorDeAtraccionesPorMenorTiempo ordenadorPorTiempo = new OrdenadorDeAtraccionesPorMenorTiempo();
-		Collections.sort(atraccionesDisponibles,ordenadorPorTiempo);		
-		return atraccionesDisponibles;
+	public void agregarAtraccionExtra(Atraccion atraccionExtra){
+			if (puedeHacer(atraccionExtra)){
+				recorrido.add(atraccionExtra);
+			}
 	}
 }

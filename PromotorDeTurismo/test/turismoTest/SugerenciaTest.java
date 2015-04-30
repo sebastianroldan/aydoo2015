@@ -22,32 +22,32 @@ public class SugerenciaTest {
 	@Before
 	public void ejecutarAntesDeTest(){
 		
-		sugerencia = new Sugerencia();
 		turista = new Turista("Pablo", 1950, 300, 15, TipoDeAtraccion.AVENTURA);
+		sugerencia = new Sugerencia(turista);
 		atraccionesDisponibles = new LinkedList<Atraccion>();
-		Coordenada coordenadaComarca = new Coordenada(100,500);
-		Coordenada coordenadaMordor = new Coordenada(700,-800);
-		Coordenada coordenadaGondor = new Coordenada(500,-650);
-		Atraccion comarca = new Atraccion("La Comarca",coordenadaComarca, 450, 120, 15, TipoDeAtraccion.DEGUSTACION);
-		Atraccion mordor = new Atraccion("Mordor",coordenadaMordor, 1200, 60, 5, TipoDeAtraccion.AVENTURA);
-		Atraccion gondor = new Atraccion("Gondor",coordenadaGondor, 300, 180, 10, TipoDeAtraccion.PAISAJE);
+		
+		Atraccion comarca = new Atraccion("La Comarca",new Coordenada(100,500), 450, 120, 15, TipoDeAtraccion.DEGUSTACION);
+		Atraccion mordor = new Atraccion("Mordor",new Coordenada(700,-800), 1200, 60, 5, TipoDeAtraccion.AVENTURA);
+		Atraccion gondor = new Atraccion("Gondor",new Coordenada(500,-650), 300, 180, 10, TipoDeAtraccion.PAISAJE);		
+
 		atraccionesDisponibles.add(comarca);
 		atraccionesDisponibles.add(mordor);
-		atraccionesDisponibles.add(gondor);
+		atraccionesDisponibles.add(gondor);		
+		
 	}
 	
 	@Test
 	public void obtenerCostoTotalTest(){
 		
-		sugerencia.generarRecorridoConAtraccionesPorPresupuesto(turista, atraccionesDisponibles);
+		sugerencia.generarRecorridoConAtraccionesPorMenorCosto(atraccionesDisponibles);
 		
-		Assert.assertEquals(300, sugerencia.getCostoTotal(), 0);
+		Assert.assertEquals(300, sugerencia.getCostoTotalSinPromociones(), 0);
 	}
 	
 	@Test
 	public void obtenerTiempoTotalTest(){
 		
-		sugerencia.generarRecorridoConAtraccionesPorPresupuesto(turista, atraccionesDisponibles);
+		sugerencia.generarRecorridoConAtraccionesPorMenorCosto(atraccionesDisponibles);
 		
 		Assert.assertEquals(261.17, sugerencia.getTiempoTotal(turista.getVelocidadDeTraslado()), 0.01);
 	}
@@ -55,7 +55,7 @@ public class SugerenciaTest {
 	@Test
 	public void obtenerItinerarioPorPresupuestoTest(){
 		
-		sugerencia.generarRecorridoConAtraccionesPorPresupuesto(turista, atraccionesDisponibles);
+		sugerencia.generarRecorridoConAtraccionesPorMenorCosto(atraccionesDisponibles);
 		
 		Assert.assertEquals("Gondor", sugerencia.getListaDeAtracciones().get(0).getNombre());
 		Assert.assertEquals(1, sugerencia.getListaDeAtracciones().size());
@@ -68,7 +68,7 @@ public class SugerenciaTest {
 		turista.setVelocidadDeTraslado(100);
 		atraccionesDisponibles.get(1).setCupoMaximo(0);
 		
-		sugerencia.generarRecorridoConAtraccionesPorPresupuesto(turista, atraccionesDisponibles);
+		sugerencia.generarRecorridoConAtraccionesPorMenorCosto(atraccionesDisponibles);
 		
 		Assert.assertEquals(2, sugerencia.getListaDeAtracciones().size());
 		Assert.assertEquals("Gondor",sugerencia.getListaDeAtracciones().get(0).getNombre());
@@ -80,10 +80,47 @@ public class SugerenciaTest {
 		
 		turista.setTiempoDisponible(380);		
 		
-		sugerencia.generarRecorridoConAtraccionesPorTiempoDisponible(turista, atraccionesDisponibles);
+		sugerencia.generarRecorridoConAtraccionesPorTiempoDisponible(atraccionesDisponibles);
 		
 		Assert.assertEquals("Mordor", sugerencia.getListaDeAtracciones().get(0).getNombre());		
 		Assert.assertEquals("La Comarca", sugerencia.getListaDeAtracciones().get(1).getNombre());
 		Assert.assertEquals(2, sugerencia.getListaDeAtracciones().size());
 	}
+	
+	@Test
+	public void obtenerRecorridoConAtraccionesPorPreferenciaTest(){
+		turista.setTiempoDisponible(480);
+		turista.setPreferencia(TipoDeAtraccion.AVENTURA);	
+		
+		Atraccion rohan = new Atraccion("Rohan", new Coordenada(450, 120), 400, 60, 10, TipoDeAtraccion.AVENTURA);
+		Atraccion moria = new Atraccion("Minas de Moria", new Coordenada(150,200), 500, 45, 5, TipoDeAtraccion.AVENTURA);
+		Atraccion isengard = new Atraccion("Isengard", new Coordenada(300,500), 30, 120, 5, TipoDeAtraccion.AVENTURA);
+		atraccionesDisponibles.add(rohan);
+		atraccionesDisponibles.add(moria);
+		atraccionesDisponibles.add(isengard);
+		
+		sugerencia.generarRecorridoConAtraccionesPorPreferencia(atraccionesDisponibles);
+		
+		Assert.assertEquals("Mordor", sugerencia.getListaDeAtracciones().get(0).getNombre());		
+		Assert.assertEquals("Rohan", sugerencia.getListaDeAtracciones().get(1).getNombre());
+		Assert.assertEquals("Isengard", sugerencia.getListaDeAtracciones().get(2).getNombre());
+		Assert.assertEquals(3, sugerencia.getListaDeAtracciones().size());
+	}
+	
+	@Test
+	public void obtenerRecorridoConAtraccionesConMayorCostoTest(){
+		turista.setTiempoDisponible(1000);
+		turista.setPresupuesto(2300);
+		
+		Atraccion moria = new Atraccion("Minas de Moria", new Coordenada(150,200), 1000, 45, 5, TipoDeAtraccion.AVENTURA);
+		atraccionesDisponibles.add(moria);
+		sugerencia.generarRecorridoConAtraccionesMasCostosas(atraccionesDisponibles);
+		
+		Assert.assertEquals("Mordor", sugerencia.getListaDeAtracciones().get(0).getNombre());
+		Assert.assertEquals("Minas de Moria", sugerencia.getListaDeAtracciones().get(1).getNombre());
+		Assert.assertEquals(2, sugerencia.getListaDeAtracciones().size());
+	}
+	
+	
+	
 }
