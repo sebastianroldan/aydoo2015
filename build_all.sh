@@ -6,3 +6,5 @@ cd ../ejercicio1
 ant
 cd ../PromotorDeTurismo
 ant
+cd ../ejemploDeFactoryMethod
+ant
