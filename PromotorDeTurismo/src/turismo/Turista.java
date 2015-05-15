@@ -57,4 +57,5 @@ public class Turista {
 		this.nombre = nombre;
 	}	
 	
+	
 }

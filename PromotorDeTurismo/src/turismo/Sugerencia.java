@@ -131,4 +131,5 @@ public class Sugerencia {
 				recorrido.add(atraccionExtra);
 			}
 	}
+	
 }
