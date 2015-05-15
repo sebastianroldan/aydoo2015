@@ -16,6 +16,39 @@ public class Sugerencia {
 		this.turista = turista;
 	}
 	
+	private boolean puedeHacer(Atraccion proximaAtraccion) {
+		
+		return alcanzaPresupuestoPara(proximaAtraccion, turista) 
+				&& (alcanzaTiempoPara(proximaAtraccion, turista) && (proximaAtraccion.hayCupo()));
+	}
+
+
+	private boolean alcanzaTiempoPara(Atraccion atraccion, Turista turista) {
+		double tiempoDeTraslado = calcularTiempoDeViajeHastaLaProximaAtraccion(turista.getVelocidadDeTraslado(), atraccion.getCoordenadas());
+		return tiempoDeTraslado+atraccion.getTiempoNecesario()+this.getTiempoTotal(turista.getVelocidadDeTraslado()) <= turista.getTiempoDisponible();
+	}
+
+
+	private double calcularTiempoDeViajeHastaLaProximaAtraccion(
+			int velocidadDeTraslado,  Coordenada proximoPunto) {
+		double tiempo = 0; 
+		double distancia = 0;
+		Coordenada ultimoPuntoRecorrido = new Coordenada(100,500);
+		
+		if (!this.recorrido.isEmpty()){
+		
+			ultimoPuntoRecorrido = this.recorrido.get(this.recorrido.size()-1).getCoordenadas();
+		}
+		
+		distancia = proximoPunto.calcularDistanciaDesdeEstaCoordenada(ultimoPuntoRecorrido);
+		tiempo = distancia/velocidadDeTraslado;
+		return tiempo;
+	}
+	
+	private boolean alcanzaPresupuestoPara(Atraccion atraccion, Turista turista){
+		return atraccion.getCostoDeAtraccion()+this.getCostoTotalSinPromociones()<= turista.getPresupuesto();
+	}
+	
 	public void setCostoFinal(double montoAdescontar){
 		this.costoFinal = this.getCostoTotalSinPromociones() - montoAdescontar;
 	}
@@ -89,43 +122,9 @@ public class Sugerencia {
 		this.setCostoFinal(0);
 	}
 	
-	private boolean puedeHacer(Atraccion proximaAtraccion) {
-		
-		return alcanzaPresupuestoPara(proximaAtraccion, turista) 
-				&& (alcanzaTiempoPara(proximaAtraccion, turista) && (proximaAtraccion.hayCupo()));
-	}
-
-
-	private boolean alcanzaTiempoPara(Atraccion atraccion, Turista turista) {
-		double tiempoDeTraslado = calcularTiempoDeViajeHastaLaProximaAtraccion(turista.getVelocidadDeTraslado(), atraccion.getCoordenadas());
-		return tiempoDeTraslado+atraccion.getTiempoNecesario()+this.getTiempoTotal(turista.getVelocidadDeTraslado()) <= turista.getTiempoDisponible();
-	}
-
-
-	private double calcularTiempoDeViajeHastaLaProximaAtraccion(
-			int velocidadDeTraslado,  Coordenada proximoPunto) {
-		double tiempo = 0; 
-		double distancia = 0;
-		Coordenada ultimoPuntoRecorrido = new Coordenada(100,500);
-		
-		if (!this.recorrido.isEmpty()){
-		
-			ultimoPuntoRecorrido = this.recorrido.get(this.recorrido.size()-1).getCoordenadas();
-		}
-		
-		distancia = proximoPunto.calcularDistanciaDesdeEstaCoordenada(ultimoPuntoRecorrido);
-		tiempo = distancia/velocidadDeTraslado;
-		return tiempo;
-	}
-	
-	private boolean alcanzaPresupuestoPara(Atraccion atraccion, Turista turista){
-		return atraccion.getCostoDeAtraccion()+this.getCostoTotalSinPromociones()<= turista.getPresupuesto();
-	}
-	
 	public List<Atraccion> getListaDeAtracciones(){
 		return this.recorrido;
 	}
-	
 	
 	public void agregarAtraccionExtra(Atraccion atraccionExtra){
 			if (puedeHacer(atraccionExtra)){
