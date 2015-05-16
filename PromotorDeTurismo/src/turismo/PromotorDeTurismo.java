@@ -65,5 +65,4 @@ public class PromotorDeTurismo {
 		return sugerencias;
 	}
 
-	
 }
