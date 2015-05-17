@@ -18,30 +18,31 @@ public class PromotorDeTurismo {
 				this.turistas = new LinkedList<Turista>();
 		}
 		
-		private void aplicarPromocion(Sugerencia recorrido) {
-				for (Promocion promo: this.promociones){
-						if (promo.esAplicableLaPromocion(recorrido)){
-								promo.aplicarPromocion(recorrido);
+		private void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
+				for (Promocion promo: this.promociones){						
+						
+						if (promo.esAplicableLaPromocion(sugerencia)){
+								promo.aplicarPromocion(sugerencia, turista);								
 						}
 				}
 		}
 	
 		private Sugerencia generarSugerencia(Turista turista, int i) {
-				Sugerencia recorridoSugerido = new Sugerencia(turista);
+				Sugerencia sugerencia = new Sugerencia();
 				switch (i) {
-						case 0: recorridoSugerido.generarRecorridoConAtraccionesPorMenorCosto(this.atracciones);
+						case 0: sugerencia.generarSugerenciaConAtraccionesPorMenorCosto(this.atracciones, turista);
 						break;
-						case 1: recorridoSugerido.generarRecorridoConAtraccionesPorTiempoDisponible(this.atracciones);
+						case 1: sugerencia.generarSugerenciaConAtraccionesPorTiempoDisponible(this.atracciones, turista);
 						break;			
-						case 2: recorridoSugerido.generarRecorridoConAtraccionesPorPreferencia(this.atracciones);
+						case 2: sugerencia.generarSugerenciaConAtraccionesPorPreferencia(this.atracciones, turista);								
 						break;			
-						case 3: recorridoSugerido.generarRecorridoConAtraccionesMasCostosas(this.atracciones);
+						case 3: sugerencia.generarSugerenciaConAtraccionesMasCostosas(this.atracciones, turista);
 						break;			
-						default: recorridoSugerido.generarRecorrido(this.atracciones);
+						default: sugerencia.generarSugerencia(this.atracciones, turista);
 						break;			
 				}
 					
-				return recorridoSugerido;
+				return sugerencia;
 		}	
 		
 		public void agregarAtraccion(Atraccion atraccion){
@@ -61,7 +62,7 @@ public class PromotorDeTurismo {
 				
 				for (int i=0; i < 5; i++){
 							sugerencias[i] = generarSugerencia(turista, i);
-							aplicarPromocion(sugerencias[i]);
+							aplicarPromocion(sugerencias[i], turista);
 				}
 				return sugerencias;
 		}

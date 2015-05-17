@@ -7,11 +7,11 @@ import java.util.Set;
 public class PromocionAxB implements Promocion {
 
 		private List<Atraccion> atracciones;
-		private Atraccion extra;
+		private Atraccion extra;		
 			
 		public PromocionAxB(List<Atraccion> atracciones, Atraccion extra){
 				this.extra = extra;
-				this.atracciones = atracciones;
+				this.atracciones = atracciones;				
 		}
 			
 		
@@ -39,20 +39,21 @@ public class PromocionAxB implements Promocion {
 	
 	
 		@Override
-		public void aplicarPromocion(Sugerencia recorrido) {
+		public void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
 				
-				if (recorrido.getListaDeAtracciones().contains(this.extra)){ 
-						recorrido.setCostoFinal(this.extra.getCostoDeAtraccion());
+				if (sugerencia.getListaDeAtracciones().contains(this.extra)){ 
+						sugerencia.setCostoFinal(this.extra.getCostoDeAtraccion());
 				}else{
-						recorrido.agregarAtraccionExtra(this.extra);
+						sugerencia.agregarAtraccionExtra(this.extra, turista);
 				}
 		}
 	
 	
 		@Override
-		public boolean esAplicableLaPromocion(Sugerencia recorrido) {
+		public boolean esAplicableLaPromocion(Sugerencia sugerencia) {
 				Set<Atraccion> conjuntoDeAtracciones = new HashSet<Atraccion>();
-				conjuntoDeAtracciones.addAll(recorrido.getListaDeAtracciones());
+				conjuntoDeAtracciones.addAll(sugerencia.getListaDeAtracciones());
 				return (conjuntoDeAtracciones.containsAll(this.atracciones));
 		}
+				
 }

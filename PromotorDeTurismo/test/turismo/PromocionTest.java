@@ -1,4 +1,4 @@
-package turismoTest;
+package turismo;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +27,8 @@ public class PromocionTest {
 		private Atraccion moria;
 		private Atraccion comarca;
 		private Atraccion rohan;
-		private Atraccion isengard;	
+		private Atraccion isengard;
+		private Turista turista = new Turista("Pablo", 1950, 600, 15, TipoDeAtraccion.AVENTURA);
 		
 		
 		@Before
@@ -51,11 +52,10 @@ public class PromocionTest {
 				List<Atraccion> atraccionesAxB = new LinkedList<Atraccion>();
 				atraccionesAxB.add(rohan);
 				atraccionesAxB.add(isengard);
-				
-				promoAxB = new PromocionAxB(atraccionesAxB, comarca);
+								
 				promoPorcentual = new PromocionPorcentual(atraccionesPorcentual, 30);
 				promoAbsoluta = new PromocionAbsoluta(atraccionesAbsolutas, 410);
-			
+				promoAxB = new PromocionAxB(atraccionesAxB, comarca);
 				
 		}
 		
@@ -65,100 +65,103 @@ public class PromocionTest {
 				List<Atraccion> lista = promoAbsoluta.getAtracciones();
 				
 				Assert.assertEquals(2,lista.size());
-				Assert.assertEquals("Rohan", lista.get(0).getNombre());
-				Assert.assertEquals("Isengard", lista.get(1).getNombre());		
+				Assert.assertEquals(rohan, lista.get(0));
+				Assert.assertEquals(isengard, lista.get(1));		
 		}
 		
 		@Test
-		public void aplicarPromoAbsolutaTest(){
-				Turista turista = new Turista("Pablo", 1950, 600, 15, TipoDeAtraccion.AVENTURA);
+		public void alAplicarPromoAbsolutaDebenCostar410RohaneIsengardTest(){
+				
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(rohan);
 				atraccionesDisponibles.add(isengard);
 				atraccionesDisponibles.add(gondor);		
 		
-				Sugerencia recorrido = new Sugerencia(turista);
-				recorrido.generarRecorrido(atraccionesDisponibles);		
-				promoAbsoluta.aplicarPromocion(recorrido);
+				Sugerencia recorrido = new Sugerencia();
+				recorrido.generarSugerencia(atraccionesDisponibles, turista);		
+				
+				Assert.assertEquals(730, recorrido.getCostoFinal(),0);
+				
+				promoAbsoluta.aplicarPromocion(recorrido, turista);
 				
 				Assert.assertEquals(710,recorrido.getCostoFinal(),0);
 			
 		}
 		
 		@Test
-		public void aplicarPromoAxBSinQueEsteEnElRcorridoTest(){
-				Turista turista = new Turista("Pablo", 1950, 600, 15, TipoDeAtraccion.AVENTURA);
+		public void alAplicarPromoAxBSeAgregaAtraccionComarcaTest(){				
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(rohan);
-				atraccionesDisponibles.add(isengard);		
+				atraccionesDisponibles.add(isengard);				
 		
-				Sugerencia recorrido = new Sugerencia(turista);
-				recorrido.generarRecorrido(atraccionesDisponibles);	
-				promoAxB.aplicarPromocion(recorrido);
+				Sugerencia recorrido = new Sugerencia();
+				recorrido.generarSugerencia(atraccionesDisponibles, turista);				
+				promoAxB.aplicarPromocion(recorrido, turista);
+				
 				
 				Assert.assertEquals(430,recorrido.getCostoFinal(),0);
 				Assert.assertEquals(3, recorrido.getListaDeAtracciones().size());
-				Assert.assertEquals("La Comarca", recorrido.getListaDeAtracciones().get(2).getNombre());
+				Assert.assertEquals(comarca, recorrido.getListaDeAtracciones().get(2));
 			
 		}
 		
 		@Test
-		public void aplicarPromoAxBCuandoLaAtraccionYaEstaEnElRecorridoTest(){
-				Turista turista = new Turista("Pablo", 1950, 600, 15, TipoDeAtraccion.AVENTURA);
+		public void alAplicarPromoAxBNoDebeAgregarComarcaPorqueYaestaEnLaSugerenciaTest(){
+				
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(rohan);
 				atraccionesDisponibles.add(isengard);
 				atraccionesDisponibles.add(comarca);
 		
-				Sugerencia recorrido = new Sugerencia(turista);
-				recorrido.generarRecorrido(atraccionesDisponibles);	
-				promoAxB.aplicarPromocion(recorrido);
+				Sugerencia recorrido = new Sugerencia();
+				recorrido.generarSugerencia(atraccionesDisponibles, turista);	
+				promoAxB.aplicarPromocion(recorrido, turista);
 				
 				Assert.assertEquals(430,recorrido.getCostoFinal(),0);
 				Assert.assertEquals(3, recorrido.getListaDeAtracciones().size());
-				Assert.assertEquals("La Comarca", recorrido.getListaDeAtracciones().get(2).getNombre());
+				Assert.assertEquals(comarca, recorrido.getListaDeAtracciones().get(2));
 			
 		}
 		
 		@Test
-		public void aplicarPromoAxBCuandoNoPuedeRealizarlaPorTiempoTest(){
-				Turista turista = new Turista("Pablo", 1950, 270, 15, TipoDeAtraccion.AVENTURA);
+		public void alAplicarPromoAxBNoDebeAgregarComarcaPorFaltaDeTiempoTest(){
+				Turista turista2 = new Turista("Sergio", 1950, 270, 15, TipoDeAtraccion.AVENTURA);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(rohan);
 				atraccionesDisponibles.add(isengard);		
 		
-				Sugerencia recorrido = new Sugerencia(turista);
-				recorrido.generarRecorrido(atraccionesDisponibles);	
-				promoAxB.aplicarPromocion(recorrido);
-				
-				Assert.assertEquals(430,recorrido.getCostoFinal(),0);
+				Sugerencia recorrido = new Sugerencia();
+				recorrido.generarSugerencia(atraccionesDisponibles, turista2);	
+				promoAxB.aplicarPromocion(recorrido, turista2);
+								
 				Assert.assertEquals(2, recorrido.getListaDeAtracciones().size());
-				Assert.assertEquals("Rohan", recorrido.getListaDeAtracciones().get(0).getNombre());
-				Assert.assertEquals("Isengard", recorrido.getListaDeAtracciones().get(1).getNombre());
+				Assert.assertEquals(rohan, recorrido.getListaDeAtracciones().get(0));
+				Assert.assertEquals(isengard, recorrido.getListaDeAtracciones().get(1));
 			
 		}
 		
 		@Test
-		public void aplicarPromoPorcentualTest(){
-				Turista turista = new Turista("Pablo", 2300, 600, 15, TipoDeAtraccion.AVENTURA);
+		public void alAplicarPromoPorcentualDebeDescontar600Test(){
+				Turista turista3 = new Turista("Juan", 2300, 600, 15, TipoDeAtraccion.AVENTURA);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(moria);
 				atraccionesDisponibles.add(mordor);
 				atraccionesDisponibles.add(gondor);		
 		
-				Sugerencia recorrido = new Sugerencia(turista);
+				Sugerencia recorrido = new Sugerencia();				
 				
-				recorrido.generarRecorrido(atraccionesDisponibles);
-						
-				promoPorcentual.aplicarPromocion(recorrido);	
+				recorrido.generarSugerencia(atraccionesDisponibles, turista3);
+				
+				Assert.assertEquals(2000,recorrido.getCostoFinal(),0);
+				
+				promoPorcentual.aplicarPromocion(recorrido, turista3);
 				
 				Assert.assertEquals(1400,recorrido.getCostoFinal(),0);
-		}
-	
+		}		
 
 }

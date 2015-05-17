@@ -27,7 +27,9 @@ public class Atraccion {
 		}
 	
 		public void setTiempoNecesario(double tiempo) {
-				this.tiempoNecesario = tiempo;
+				if (tiempo > 0){
+						this.tiempoNecesario = tiempo;
+				}	
 		}
 	
 		public double getCostoDeAtraccion() {
@@ -35,7 +37,9 @@ public class Atraccion {
 		}
 		
 		public void setCostoDeAtraccion(double costoDeAtraccion) {
-				this.costoDeAtraccion = costoDeAtraccion;
+				if (costoDeAtraccion >= 0){
+						this.costoDeAtraccion = costoDeAtraccion;
+				}		
 		}
 		
 		public Coordenada getCoordenadas() {
@@ -51,7 +55,9 @@ public class Atraccion {
 		}
 	
 		public void setCupoMaximo(int cupoMaximo) {
-				this.cupoMaximo = cupoMaximo;
+				if (cupoMaximo > 0){
+						this.cupoMaximo = cupoMaximo;
+				}		
 		}
 	
 		public String getNombre() {

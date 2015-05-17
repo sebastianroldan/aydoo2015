@@ -1,4 +1,4 @@
-package turismoTest;
+package turismo;
 
 import org.junit.Assert;
 import org.junit.Before;

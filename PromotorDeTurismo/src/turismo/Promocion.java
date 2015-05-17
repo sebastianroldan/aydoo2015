@@ -12,6 +12,6 @@ public interface Promocion {
 	
 		boolean esAplicableLaPromocion(Sugerencia recorrido);
 	
-		void aplicarPromocion(Sugerencia recorrido);	
+		void aplicarPromocion(Sugerencia recorrido, Turista turista);	
 	
 }

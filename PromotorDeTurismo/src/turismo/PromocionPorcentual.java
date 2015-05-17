@@ -38,16 +38,16 @@ public class PromocionPorcentual implements Promocion{
 	
 	
 		@Override
-		public void aplicarPromocion(Sugerencia recorrido) {
-				montoADescontar = costoTotal()*(porcentaje/100); 
-				recorrido.setCostoFinal(montoADescontar);		
+		public void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
+				montoADescontar = costoTotal()*(porcentaje/100); 				
+				sugerencia.setCostoFinal(montoADescontar);		
 		}
 	
 	
 		@Override
-		public boolean esAplicableLaPromocion(Sugerencia recorrido) {
+		public boolean esAplicableLaPromocion(Sugerencia sugerencia) {
 				Set<Atraccion> conjuntoDeAtracciones = new HashSet<Atraccion>();
-				conjuntoDeAtracciones.addAll(recorrido.getListaDeAtracciones());
+				conjuntoDeAtracciones.addAll(sugerencia.getListaDeAtracciones());
 				return (conjuntoDeAtracciones.containsAll(this.atracciones));
 		}
 		

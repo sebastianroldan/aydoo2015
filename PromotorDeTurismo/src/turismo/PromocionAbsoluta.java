@@ -37,15 +37,15 @@ public class PromocionAbsoluta implements Promocion{
 		}
 	
 		@Override
-		public void aplicarPromocion(Sugerencia recorrido) {
+		public void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
 				montoADescontar =  this.costoTotal() - this.costoPorPromocion;
-				recorrido.setCostoFinal(montoADescontar);		
+				sugerencia.setCostoFinal(montoADescontar);		
 			
 		}
 	
-		public boolean esAplicableLaPromocion(Sugerencia recorrido) {
+		public boolean esAplicableLaPromocion(Sugerencia sugerencia) {
 				Set<Atraccion> conjuntoDeAtracciones = new HashSet<Atraccion>();
-				conjuntoDeAtracciones.addAll(recorrido.getListaDeAtracciones());
+				conjuntoDeAtracciones.addAll(sugerencia.getListaDeAtracciones());
 				return (conjuntoDeAtracciones.containsAll(this.atracciones));
 		}
 }

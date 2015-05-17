@@ -6,20 +6,19 @@ import java.util.List;
 
 public class Sugerencia {
 	
-		private List<Atraccion> recorrido;
-		private Turista turista;	
+		private List<Atraccion> sugerencia;
 		private double costoFinal;
 		
-		public Sugerencia(Turista turista){
-				recorrido = new LinkedList<Atraccion>();
-				this.turista = turista;
+		public Sugerencia(){
+				this.sugerencia = new LinkedList<Atraccion>();				
+				this.costoFinal = 0;
 		}
 		
-		private boolean puedeHacer(Atraccion proximaAtraccion) {
+		private boolean puedeHacer(Atraccion proximaAtraccion, Turista turista) {
 			
-			return alcanzaPresupuestoPara(proximaAtraccion, turista) 
+			return (alcanzaPresupuestoPara(proximaAtraccion, turista) 
 						&& (alcanzaTiempoPara(proximaAtraccion, turista) 
-								&& (proximaAtraccion.hayCupo()));
+								&& (proximaAtraccion.hayCupo())));
 		}
 	
 	
@@ -42,9 +41,9 @@ public class Sugerencia {
 				double distancia = 0;
 				Coordenada ultimoPuntoRecorrido = new Coordenada(100,500);
 			
-				if (!this.recorrido.isEmpty()){
+				if (!this.sugerencia.isEmpty()){
 			
-						ultimoPuntoRecorrido = this.recorrido.get(this.recorrido.size()-1).getCoordenadas();
+						ultimoPuntoRecorrido = this.sugerencia.get(this.sugerencia.size()-1).getCoordenadas();
 				}
 			
 				distancia = proximoPunto.calcularDistanciaDesdeEstaCoordenada(ultimoPuntoRecorrido);
@@ -66,10 +65,10 @@ public class Sugerencia {
 				return costoFinal;
 		}
 		
-		public double getCostoTotalSinPromociones(){
+		private double getCostoTotalSinPromociones(){
 				double costoTotal = 0;
 				
-				for (Atraccion atraccionActual: recorrido){
+				for (Atraccion atraccionActual: sugerencia){
 					
 						costoTotal = costoTotal + atraccionActual.getCostoDeAtraccion();
 				}
@@ -84,7 +83,7 @@ public class Sugerencia {
 				double tiempoDeTraslado = 0;
 				double distanciaDeTraslado = 0;
 			
-				for (Atraccion atraccionProxima: recorrido){			
+				for (Atraccion atraccionProxima: sugerencia){			
 						distanciaDeTraslado = puntoActual.calcularDistanciaDesdeEstaCoordenada(
 																atraccionProxima.getCoordenadas());
 						
@@ -95,57 +94,57 @@ public class Sugerencia {
 				return tiempoTotal;
 		}
 	
-		public void generarRecorridoConAtraccionesPorMenorCosto(
-									List<Atraccion> atraccionesDisponibles){
+		public void generarSugerenciaConAtraccionesPorMenorCosto(
+									List<Atraccion> atraccionesDisponibles, Turista turista){
 			
-				Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorCostoMenor());
-				this.generarRecorrido(atraccionesDisponibles);				
+				Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorCostoMenor());				
+				this.generarSugerencia(atraccionesDisponibles, turista);				
 		}
 		
-		public void generarRecorridoConAtraccionesPorTiempoDisponible(
-									List<Atraccion> atraccionesDisponibles) {
+		public void generarSugerenciaConAtraccionesPorTiempoDisponible(
+									List<Atraccion> atraccionesDisponibles, Turista turista) {
 			
 				Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorMenorTiempo());
-				this.generarRecorrido(atraccionesDisponibles);
+				this.generarSugerencia(atraccionesDisponibles, turista);
 		}
 		
-		public void generarRecorridoConAtraccionesPorPreferencia(
-									List<Atraccion> atraccionesDisponibles) {
-			
+		public void generarSugerenciaConAtraccionesPorPreferencia(
+									List<Atraccion> atraccionesDisponibles, Turista turista) {
 				for (Atraccion proximaAtraccion: atraccionesDisponibles){			
-						if (puedeHacer(proximaAtraccion) && (proximaAtraccion.getTipoAtraccion()==turista.getPreferencia()) ){				
+						if (puedeHacer(proximaAtraccion, turista) && (proximaAtraccion.getTipoAtraccion()==turista.getPreferencia()) ){				
 								proximaAtraccion.agregarVisitante();				
-								recorrido.add(proximaAtraccion);								
+								sugerencia.add(proximaAtraccion);									
 						}
 				}
-			
+				this.setCostoFinal(0);
+
 		}
 		
-		public void generarRecorridoConAtraccionesMasCostosas(
-						List<Atraccion> listaDeAtracciones) {
+		public void generarSugerenciaConAtraccionesMasCostosas(
+						List<Atraccion> listaDeAtracciones, Turista turista) {
 			
 				Collections.sort(listaDeAtracciones, new OrdenadorDeAtraccionesPorCostoMayor());
-				this.generarRecorrido(listaDeAtracciones);		
+				this.generarSugerencia(listaDeAtracciones, turista);		
 		}
 		
-		public void generarRecorrido(List<Atraccion> atraccionesDisponibles){
+		public void generarSugerencia(List<Atraccion> atraccionesDisponibles, Turista turista){
 			
 				for (Atraccion proximaAtraccion : atraccionesDisponibles){
-						if (puedeHacer(proximaAtraccion)){
+						if (puedeHacer(proximaAtraccion, turista)){
 								proximaAtraccion.agregarVisitante();
-								recorrido.add(proximaAtraccion);		
+								sugerencia.add(proximaAtraccion);										
 						}
-				}
+				}				
 				this.setCostoFinal(0);
 		}
 		
 		public List<Atraccion> getListaDeAtracciones(){
-				return this.recorrido;
+				return this.sugerencia;
 		}
 		
-		public void agregarAtraccionExtra(Atraccion atraccionExtra){
-				if (puedeHacer(atraccionExtra)){
-						recorrido.add(atraccionExtra);
+		public void agregarAtraccionExtra(Atraccion atraccionExtra, Turista turista){
+				if (puedeHacer(atraccionExtra, turista)){
+						sugerencia.add(atraccionExtra);
 				}
 		}
 	

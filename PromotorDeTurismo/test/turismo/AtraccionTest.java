@@ -1,4 +1,4 @@
-package turismoTest;
+package turismo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -67,11 +67,19 @@ public class AtraccionTest {
 		}
 		
 		@Test
-		public void obtenerCantidadDeVisitantes(){
+		public void agregarVisitantesTest(){
 			
 				int visitantes;
 				visitantes = this.atraccion.getCantidadDeVisitantes();
+				
 				Assert.assertEquals(0, visitantes);
+				
+				this.atraccion.agregarVisitante();
+				
+				visitantes = this.atraccion.getCantidadDeVisitantes();
+				
+				Assert.assertEquals(1, visitantes);
+				
 		} 
 		
 		@Test
