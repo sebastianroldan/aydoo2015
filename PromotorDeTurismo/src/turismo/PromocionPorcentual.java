@@ -27,7 +27,7 @@ public class PromocionPorcentual implements Promocion{
 		}
 	
 		@Override
-		public double costoTotal() {
+		public double costoAtraccionesSinDescuento() {
 				double costo = 0;
 			
 				for (Atraccion atraccion : atracciones){
@@ -39,7 +39,7 @@ public class PromocionPorcentual implements Promocion{
 	
 		@Override
 		public void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
-				montoADescontar = costoTotal()*(porcentaje/100); 				
+				montoADescontar = costoAtraccionesSinDescuento()*(porcentaje/100); 				
 				sugerencia.setCostoFinal(montoADescontar);		
 		}
 	
@@ -49,6 +49,6 @@ public class PromocionPorcentual implements Promocion{
 				Set<Atraccion> conjuntoDeAtracciones = new HashSet<Atraccion>();
 				conjuntoDeAtracciones.addAll(sugerencia.getListaDeAtracciones());
 				return (conjuntoDeAtracciones.containsAll(this.atracciones));
-		}
+		}		
 		
 }

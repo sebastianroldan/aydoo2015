@@ -7,15 +7,17 @@ public class Turista {
 		private int tiempoDisponible;
 		private int velocidadDeTraslado;
 		private TipoDeAtraccion preferencia;
+		private Coordenada coordenada;
 		
 		public Turista(String nombre, double presupuesto, int tiempoDisponible,
-								int velocidadDeTraslado, TipoDeAtraccion preferencia) {
+								int velocidadDeTraslado, TipoDeAtraccion preferencia, Coordenada coordenada) {
 			
 				this.setNombre(nombre);
 				this.presupuesto = presupuesto;
 				this.tiempoDisponible = tiempoDisponible;
 				this.velocidadDeTraslado = velocidadDeTraslado;
 				this.preferencia = preferencia;
+				this.coordenada = coordenada;
 		}
 	
 		public double getPresupuesto() {
@@ -56,6 +58,14 @@ public class Turista {
 	
 		public void setNombre(String nombre) {
 				this.nombre = nombre;
+		}
+
+		public Coordenada getCoordenada() {			
+			return this.coordenada;
 		}	
+		
+		public void setCoordenada(Coordenada coordenada) {			
+			this.coordenada = coordenada;
+		}
 		
 }

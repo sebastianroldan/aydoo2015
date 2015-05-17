@@ -1,5 +1,8 @@
 package turismo;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +27,7 @@ public class PromotorDeTurismoTest {
 				promotor.agregarAtraccion(mordor);
 				promotor.agregarAtraccion(gondor);
 				
-				Turista turista = new Turista("Marcos", 3000, 300, 15, TipoDeAtraccion.DEGUSTACION);
+				Turista turista = new Turista("Marcos", 3000, 300, 15, TipoDeAtraccion.DEGUSTACION, new Coordenada(100,500));
 				
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);		
@@ -44,7 +47,7 @@ public class PromotorDeTurismoTest {
 				promotor.agregarAtraccion(mordor);
 				promotor.agregarAtraccion(gondor);
 				
-				Turista turista = new Turista("Marcos", 3000, 430, 30, TipoDeAtraccion.DEGUSTACION);
+				Turista turista = new Turista("Marcos", 3000, 430, 30, TipoDeAtraccion.DEGUSTACION, new Coordenada(100,500));
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				
 				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);
@@ -55,5 +58,37 @@ public class PromotorDeTurismoTest {
 				Assert.assertTrue(maximoCosto >= sugerenciasParaTurista[2].getCostoFinal());
 				Assert.assertTrue(maximoCosto >= sugerenciasParaTurista[3].getCostoFinal());
 				Assert.assertTrue(maximoCosto >= sugerenciasParaTurista[4].getCostoFinal());
+		}
+		
+		@Test
+		public void alAplicarPromocionExtranjeroNoDebeAplicarPromocionAxBTest(){		
+				
+				Atraccion comarca = new Atraccion("La Comarca",new Coordenada(0,100), 600, 120, 15, TipoDeAtraccion.AVENTURA);
+				Atraccion mordor = new Atraccion("Mordor",new Coordenada(0,50), 400, 60, 5, TipoDeAtraccion.AVENTURA);
+				Atraccion gondor = new Atraccion("Gondor",new Coordenada(0,150), 580, 180, 10, TipoDeAtraccion.PAISAJE);		
+				
+				promotor = new PromotorDeTurismo();
+				promotor.agregarAtraccion(comarca);
+				promotor.agregarAtraccion(mordor);				
+				promotor.agregarAtraccion(gondor);
+				
+				List<Atraccion> atracciones = new LinkedList<Atraccion>();
+				atracciones.add(comarca);
+				atracciones.add(mordor);
+				
+				Turista turista = new Turista("Marcos", 3000, 5000, 30, TipoDeAtraccion.AVENTURA, new Coordenada(0,500));								
+				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
+				
+				Promocion promoAxB = new PromocionAxB(atracciones, gondor);
+				promotor.agregarPromocion(promoAxB);
+				
+				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);
+				
+				Sugerencia sugerenciaPorPreferencia = sugerenciasParaTurista[2];
+				
+				Assert.assertEquals(2, sugerenciaPorPreferencia.getListaDeAtracciones().size());
+				Assert.assertEquals(mordor, sugerenciaPorPreferencia.getListaDeAtracciones().get(0));
+				Assert.assertEquals(comarca, sugerenciaPorPreferencia.getListaDeAtracciones().get(1));
+				Assert.assertEquals(500, sugerenciaPorPreferencia.getCostoFinal(), 0);
 		}
 }

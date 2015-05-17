@@ -25,7 +25,7 @@ public class SugerenciaTest {
 		@Before
 		public void ejecutarAntesDeTest(){
 			
-				turista = new Turista("Pablo", 1950, 300, 15, TipoDeAtraccion.AVENTURA);
+				turista = new Turista("Pablo", 1950, 300, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500));
 				sugerencia = new Sugerencia();
 				atraccionesDisponibles = new LinkedList<Atraccion>();						
 		

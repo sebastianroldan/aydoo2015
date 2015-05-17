@@ -9,20 +9,24 @@ import java.util.Set;
 public class PromotorDeTurismo {
 
 		private List<Atraccion> atracciones;
-		private Set<Promocion> promociones;
-		private List<Turista> turistas;
+		private Set<Promocion> promociones;		
 		
 		public PromotorDeTurismo(){
 				this.atracciones = new LinkedList<Atraccion>();
-				this.promociones = new HashSet<Promocion>();
-				this.turistas = new LinkedList<Turista>();
+				this.promociones = new HashSet<Promocion>();			
 		}
 		
 		private void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
-				for (Promocion promo: this.promociones){						
-						
-						if (promo.esAplicableLaPromocion(sugerencia)){
-								promo.aplicarPromocion(sugerencia, turista);								
+				PromocionExtranjero promoExtranjero = new PromocionExtranjero();
+				if (promoExtranjero.esAplicableLaPromocion(sugerencia, turista)){
+						promoExtranjero.aplicarPromocion(sugerencia);
+				
+				}else{
+						for (Promocion promo: this.promociones){						
+								
+								if (promo.esAplicableLaPromocion(sugerencia)){
+										promo.aplicarPromocion(sugerencia, turista);								
+								}
 						}
 				}
 		}
@@ -47,11 +51,7 @@ public class PromotorDeTurismo {
 		
 		public void agregarAtraccion(Atraccion atraccion){
 				this.atracciones.add(atraccion);
-		}
-		
-		public void agregarTurista(Turista turista){
-				this.turistas.add(turista);
-		}
+		}		
 			
 		public void agregarPromocion(Promocion promocion){
 				this.promociones.add(promocion);

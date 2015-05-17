@@ -19,7 +19,7 @@ public class TuristaTest {
 				int velocidadDeTraslado = 80;
 				TipoDeAtraccion preferencia = TipoDeAtraccion.AVENTURA;
 				
-				this.seba = new Turista("Sebastian", presupuesto, tiempoDisponible, velocidadDeTraslado, preferencia);
+				this.seba = new Turista("Sebastian", presupuesto, tiempoDisponible, velocidadDeTraslado, preferencia, new Coordenada(100,500));
 		}
 		
 		@Test

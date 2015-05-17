@@ -28,7 +28,7 @@ public class PromocionAxB implements Promocion {
 		}
 	
 		@Override
-		public double costoTotal() {
+		public double costoAtraccionesSinDescuento() {
 				double costo = 0;
 				
 				for (Atraccion atraccion : atracciones){

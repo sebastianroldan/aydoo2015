@@ -25,7 +25,7 @@ public class Sugerencia {
 		private boolean alcanzaTiempoPara(Atraccion atraccion, Turista turista) {
 			
 				double tiempoDeTraslado = calcularTiempoDeViajeHastaLaProximaAtraccion(
-												turista.getVelocidadDeTraslado(),atraccion.getCoordenadas());
+												turista.getVelocidadDeTraslado(),atraccion.getCoordenadas(), turista.getCoordenada());
 				
 				double tiempoTotalTranscurrido = this.getTiempoTotal(turista.getVelocidadDeTraslado());
 				
@@ -35,11 +35,11 @@ public class Sugerencia {
 	
 	
 		private double calcularTiempoDeViajeHastaLaProximaAtraccion(int velocidadDeTraslado,  
-													Coordenada proximoPunto) {
+													Coordenada proximoPunto, Coordenada ubicacionDelTurista) {
 			
 				double tiempo = 0; 
 				double distancia = 0;
-				Coordenada ultimoPuntoRecorrido = new Coordenada(100,500);
+				Coordenada ultimoPuntoRecorrido = ubicacionDelTurista;
 			
 				if (!this.sugerencia.isEmpty()){
 			

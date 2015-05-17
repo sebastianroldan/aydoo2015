@@ -28,7 +28,7 @@ public class PromocionTest {
 		private Atraccion comarca;
 		private Atraccion rohan;
 		private Atraccion isengard;
-		private Turista turista = new Turista("Pablo", 1950, 600, 15, TipoDeAtraccion.AVENTURA);
+		private Turista turista = new Turista("Pablo", 1950, 600, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500));
 		
 		
 		@Before
@@ -78,14 +78,14 @@ public class PromocionTest {
 				atraccionesDisponibles.add(isengard);
 				atraccionesDisponibles.add(gondor);		
 		
-				Sugerencia recorrido = new Sugerencia();
-				recorrido.generarSugerencia(atraccionesDisponibles, turista);		
+				Sugerencia sugerencia = new Sugerencia();
+				sugerencia.generarSugerencia(atraccionesDisponibles, turista);		
 				
-				Assert.assertEquals(730, recorrido.getCostoFinal(),0);
+				Assert.assertEquals(730, sugerencia.getCostoFinal(),0);
 				
-				promoAbsoluta.aplicarPromocion(recorrido, turista);
+				promoAbsoluta.aplicarPromocion(sugerencia, turista);
 				
-				Assert.assertEquals(710,recorrido.getCostoFinal(),0);
+				Assert.assertEquals(710,sugerencia.getCostoFinal(),0);
 			
 		}
 		
@@ -96,14 +96,14 @@ public class PromocionTest {
 				atraccionesDisponibles.add(rohan);
 				atraccionesDisponibles.add(isengard);				
 		
-				Sugerencia recorrido = new Sugerencia();
-				recorrido.generarSugerencia(atraccionesDisponibles, turista);				
-				promoAxB.aplicarPromocion(recorrido, turista);
+				Sugerencia sugerencia = new Sugerencia();
+				sugerencia.generarSugerencia(atraccionesDisponibles, turista);				
+				promoAxB.aplicarPromocion(sugerencia, turista);
 				
 				
-				Assert.assertEquals(430,recorrido.getCostoFinal(),0);
-				Assert.assertEquals(3, recorrido.getListaDeAtracciones().size());
-				Assert.assertEquals(comarca, recorrido.getListaDeAtracciones().get(2));
+				Assert.assertEquals(430,sugerencia.getCostoFinal(),0);
+				Assert.assertEquals(3, sugerencia.getListaDeAtracciones().size());
+				Assert.assertEquals(comarca, sugerencia.getListaDeAtracciones().get(2));
 			
 		}
 		
@@ -116,52 +116,51 @@ public class PromocionTest {
 				atraccionesDisponibles.add(isengard);
 				atraccionesDisponibles.add(comarca);
 		
-				Sugerencia recorrido = new Sugerencia();
-				recorrido.generarSugerencia(atraccionesDisponibles, turista);	
-				promoAxB.aplicarPromocion(recorrido, turista);
+				Sugerencia sugerencia = new Sugerencia();
+				sugerencia.generarSugerencia(atraccionesDisponibles, turista);	
+				promoAxB.aplicarPromocion(sugerencia, turista);
 				
-				Assert.assertEquals(430,recorrido.getCostoFinal(),0);
-				Assert.assertEquals(3, recorrido.getListaDeAtracciones().size());
-				Assert.assertEquals(comarca, recorrido.getListaDeAtracciones().get(2));
+				Assert.assertEquals(430,sugerencia.getCostoFinal(),0);
+				Assert.assertEquals(3, sugerencia.getListaDeAtracciones().size());
+				Assert.assertEquals(comarca, sugerencia.getListaDeAtracciones().get(2));
 			
 		}
 		
 		@Test
 		public void alAplicarPromoAxBNoDebeAgregarComarcaPorFaltaDeTiempoTest(){
-				Turista turista2 = new Turista("Sergio", 1950, 270, 15, TipoDeAtraccion.AVENTURA);
+				Turista turista2 = new Turista("Sergio", 1950, 270, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500));
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(rohan);
 				atraccionesDisponibles.add(isengard);		
 		
-				Sugerencia recorrido = new Sugerencia();
-				recorrido.generarSugerencia(atraccionesDisponibles, turista2);	
-				promoAxB.aplicarPromocion(recorrido, turista2);
+				Sugerencia sugerencia = new Sugerencia();
+				sugerencia.generarSugerencia(atraccionesDisponibles, turista2);	
+				promoAxB.aplicarPromocion(sugerencia, turista2);
 								
-				Assert.assertEquals(2, recorrido.getListaDeAtracciones().size());
-				Assert.assertEquals(rohan, recorrido.getListaDeAtracciones().get(0));
-				Assert.assertEquals(isengard, recorrido.getListaDeAtracciones().get(1));
+				Assert.assertEquals(2, sugerencia.getListaDeAtracciones().size());
+				Assert.assertEquals(rohan, sugerencia.getListaDeAtracciones().get(0));
+				Assert.assertEquals(isengard, sugerencia.getListaDeAtracciones().get(1));
 			
 		}
 		
 		@Test
 		public void alAplicarPromoPorcentualDebeDescontar600Test(){
-				Turista turista3 = new Turista("Juan", 2300, 600, 15, TipoDeAtraccion.AVENTURA);
+				Turista turista3 = new Turista("Juan", 2300, 600, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500));
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(moria);
 				atraccionesDisponibles.add(mordor);
 				atraccionesDisponibles.add(gondor);		
 		
-				Sugerencia recorrido = new Sugerencia();				
+				Sugerencia sugerencia = new Sugerencia();				
 				
-				recorrido.generarSugerencia(atraccionesDisponibles, turista3);
+				sugerencia.generarSugerencia(atraccionesDisponibles, turista3);
 				
-				Assert.assertEquals(2000,recorrido.getCostoFinal(),0);
+				Assert.assertEquals(2000,sugerencia.getCostoFinal(),0);
 				
-				promoPorcentual.aplicarPromocion(recorrido, turista3);
+				promoPorcentual.aplicarPromocion(sugerencia, turista3);
 				
-				Assert.assertEquals(1400,recorrido.getCostoFinal(),0);
-		}		
-
+				Assert.assertEquals(1400,sugerencia.getCostoFinal(),0);
+		}				
 }

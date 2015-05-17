@@ -8,10 +8,11 @@ public interface Promocion {
 	
 		List<Atraccion> getAtracciones();
 	
-		double costoTotal();
+		double costoAtraccionesSinDescuento();
 	
-		boolean esAplicableLaPromocion(Sugerencia recorrido);
+		boolean esAplicableLaPromocion(Sugerencia sugerencia);
 	
-		void aplicarPromocion(Sugerencia recorrido, Turista turista);	
+		void aplicarPromocion(Sugerencia sugerencia, Turista turista);
+
 	
 }
