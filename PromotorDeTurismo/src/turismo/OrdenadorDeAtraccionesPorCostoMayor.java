@@ -7,10 +7,10 @@ public class OrdenadorDeAtraccionesPorCostoMayor implements Comparator<Atraccion
 		@Override
 		public int compare(Atraccion atraccion1, Atraccion atraccion2){
 			
-			Double costo1 = atraccion1.getCostoDeAtraccion();
-			Double costo2 = atraccion2.getCostoDeAtraccion();
+				Double costo1 = atraccion1.getCostoDeAtraccion();
+				Double costo2 = atraccion2.getCostoDeAtraccion();
 			
-			return costo2.compareTo(costo1);
+				return costo2.compareTo(costo1);
 		}
 	
 }

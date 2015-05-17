@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface Promocion {	
 		
-	void agregarAtraccion(Atraccion atraccionNueva);
+		void agregarAtraccion(Atraccion atraccionNueva);
 	
-	List<Atraccion> getAtracciones();
+		List<Atraccion> getAtracciones();
 	
-	double costoTotal();
+		double costoTotal();
 	
-	boolean esAplicableLaPromocion(Sugerencia recorrido);
+		boolean esAplicableLaPromocion(Sugerencia recorrido);
 	
-	void aplicarPromocion(Sugerencia recorrido);	
+		void aplicarPromocion(Sugerencia recorrido);	
 	
 }

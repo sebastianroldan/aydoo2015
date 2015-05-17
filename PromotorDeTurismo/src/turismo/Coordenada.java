@@ -2,41 +2,41 @@ package turismo;
 
 public class Coordenada {
 	
-	private double coordenadaX;
-	private double coordenadaY;
-
-	public Coordenada(double x, double y) {
-		this.coordenadaX = x;
-		this.coordenadaY = y;
-	}
-
-	public double getCoordenadaX() {
-		return coordenadaX;
-	}
-
-	public void setCoordenadaX(double coordenadaX) {
-		this.coordenadaX = coordenadaX;
-	}
-
-	public double getCoordenadaY() {
-		return coordenadaY;
-	}
-
-	public void setCoordenadaY(double coordenadaY) {
-		this.coordenadaY = coordenadaY;
-	}
+		private double coordenadaX;
+		private double coordenadaY;
 	
-	public double calcularDistanciaDesdeEstaCoordenada(Coordenada punto){
-		double restaCoordenadasX = this.coordenadaX-punto.getCoordenadaX();
-		double restaCoordenadasY = this.coordenadaY-punto.getCoordenadaY();
-		double Xcuadrado = restaCoordenadasX*restaCoordenadasX;
-		double Ycuadrado = restaCoordenadasY*restaCoordenadasY;
-		double distancia = Math.sqrt(Xcuadrado + Ycuadrado);
-		return distancia; 
-	}
+		public Coordenada(double x, double y) {
+				this.coordenadaX = x;
+				this.coordenadaY = y;
+		}
 	
-	public static double calcularDistanciesEntre(Coordenada punto1, Coordenada punto2){		
-		return punto1.calcularDistanciaDesdeEstaCoordenada(punto2);
-	}
+		public double getCoordenadaX() {
+				return coordenadaX;
+		}
+	
+		public void setCoordenadaX(double coordenadaX) {
+				this.coordenadaX = coordenadaX;
+		}
+	
+		public double getCoordenadaY() {
+				return coordenadaY;
+		}
+	
+		public void setCoordenadaY(double coordenadaY) {
+				this.coordenadaY = coordenadaY;
+		}
+		
+		public double calcularDistanciaDesdeEstaCoordenada(Coordenada punto){
+				double restaCoordenadasX = this.coordenadaX-punto.getCoordenadaX();
+				double restaCoordenadasY = this.coordenadaY-punto.getCoordenadaY();
+				double Xcuadrado = restaCoordenadasX*restaCoordenadasX;
+				double Ycuadrado = restaCoordenadasY*restaCoordenadasY;
+				double distancia = Math.sqrt(Xcuadrado + Ycuadrado);
+				return distancia; 
+		}
+		
+		public static double calcularDistanciesEntre(Coordenada punto1, Coordenada punto2){		
+				return punto1.calcularDistanciaDesdeEstaCoordenada(punto2);
+		}
 	
 }
