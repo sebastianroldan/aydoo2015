@@ -24,7 +24,7 @@ public class PromocionExtranjeroTest {
 		@Test
 		public void aplicarPromocionExtranjeroTest(){
 			
-				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,199));
+				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,199),1);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(moria);
@@ -49,7 +49,7 @@ public class PromocionExtranjeroTest {
 		@Test
 		public void noAplicarPromocionExtranjeroSiEstaAMenosDe200KMTest(){
 				
-				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,150));
+				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,150),1);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(moria);
@@ -70,7 +70,7 @@ public class PromocionExtranjeroTest {
 		@Test
 		public void aplicarPromocionExtranjeroSiEstaAMasDe200KMTest(){
 					
-				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,150));
+				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,150),1);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 				
 				atraccionesDisponibles.add(moria);

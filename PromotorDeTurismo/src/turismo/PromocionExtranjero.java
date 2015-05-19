@@ -19,7 +19,7 @@ public class PromocionExtranjero{
 		public void aplicarPromocion(Sugerencia sugerencia) {
 				
 			double descuento = sugerencia.getCostoFinal()/2;
-			sugerencia.setCostoFinal(descuento);
+			sugerencia.aplicarDescuentoACostoFinal(descuento);
 		}
 
 }

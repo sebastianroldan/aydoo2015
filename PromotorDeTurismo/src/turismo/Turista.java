@@ -8,18 +8,28 @@ public class Turista {
 		private int velocidadDeTraslado;
 		private TipoDeAtraccion preferencia;
 		private Coordenada coordenada;
+		private int grupoFamiliar = 1;
 		
 		public Turista(String nombre, double presupuesto, int tiempoDisponible,
-								int velocidadDeTraslado, TipoDeAtraccion preferencia, Coordenada coordenada) {
+								int velocidadDeTraslado, TipoDeAtraccion preferencia, Coordenada coordenada, int grupoFamiliar) {
 			
 				this.setNombre(nombre);
-				this.presupuesto = presupuesto;
-				this.tiempoDisponible = tiempoDisponible;
-				this.velocidadDeTraslado = velocidadDeTraslado;
-				this.preferencia = preferencia;
-				this.coordenada = coordenada;
+				this.setPresupuesto(presupuesto);
+				this.setTiempoDisponible(tiempoDisponible);
+				this.setVelocidadDeTraslado(velocidadDeTraslado);
+				this.setPreferencia(preferencia);
+				this.setCoordenada(coordenada);
+				this.setGrupoFamiliar(grupoFamiliar);
 		}
 	
+		public void setGrupoFamiliar(int cantidadDePersonas){
+			this.grupoFamiliar = cantidadDePersonas;
+		}
+		
+		public int getGrupoFamiliar(){
+			return this.grupoFamiliar;
+		}
+		
 		public double getPresupuesto() {
 				return this.presupuesto;
 		}

@@ -22,17 +22,39 @@ public class PromotorDeTurismo {
 						promoExtranjero.aplicarPromocion(sugerencia);
 				
 				}else{
+						aplicarPaqueteFamiliar(sugerencia, turista);
 						for (Promocion promo: this.promociones){						
 								
 								if (promo.esAplicableLaPromocion(sugerencia)){
 										promo.aplicarPromocion(sugerencia, turista);								
 								}
-						}
+						}						
 				}
 		}
 	
+		private void aplicarPaqueteFamiliar(Sugerencia sugerencia,Turista turista) {
+				double descuentoGrupal = 0;
+				double descuentoIndividual = 0;
+				int personasCon30PorcientoDeDescuento = turista.getGrupoFamiliar() - 4;
+				
+				sugerencia.setCostoFinal(sugerencia.getCostoFinal()*turista.getGrupoFamiliar());
+				
+				if (turista.getGrupoFamiliar() >= 4){						
+				
+						descuentoIndividual = sugerencia.getCostoTotalSinPromociones()*0.10;						
+						descuentoGrupal = descuentoIndividual*4;
+						sugerencia.aplicarDescuentoACostoFinal(descuentoGrupal);
+				}
+				if (personasCon30PorcientoDeDescuento > 0){
+					
+						descuentoIndividual = sugerencia.getCostoTotalSinPromociones()*0.30;
+						descuentoGrupal = descuentoIndividual*personasCon30PorcientoDeDescuento;
+						sugerencia.aplicarDescuentoACostoFinal(descuentoGrupal);			
+				}
+		}
+
 		private Sugerencia generarSugerencia(Turista turista, int i) {
-				Sugerencia sugerencia = new Sugerencia();
+				Sugerencia sugerencia = new Sugerencia();			
 				switch (i) {
 						case 0: sugerencia.generarSugerenciaConAtraccionesPorMenorCosto(this.atracciones, turista);
 						break;

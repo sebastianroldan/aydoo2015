@@ -42,7 +42,7 @@ public class PromocionAxB implements Promocion {
 		public void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
 				
 				if (sugerencia.getListaDeAtracciones().contains(this.extra)){ 
-						sugerencia.setCostoFinal(this.extra.getCostoDeAtraccion());
+						sugerencia.aplicarDescuentoACostoFinal(this.extra.getCostoDeAtraccion());
 				}else{
 						sugerencia.agregarAtraccionExtra(this.extra, turista);
 				}

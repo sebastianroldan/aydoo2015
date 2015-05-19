@@ -25,7 +25,7 @@ public class SugerenciaTest {
 		@Before
 		public void ejecutarAntesDeTest(){
 			
-				turista = new Turista("Pablo", 1950, 300, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500));
+				turista = new Turista("Pablo", 1950, 300, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500),1);
 				sugerencia = new Sugerencia();
 				atraccionesDisponibles = new LinkedList<Atraccion>();						
 		
@@ -68,7 +68,7 @@ public class SugerenciaTest {
 				turista.setTiempoDisponible(1000);
 				turista.setVelocidadDeTraslado(100);
 				atraccionesDisponibles.get(1).setCupoMaximo(1);
-				atraccionesDisponibles.get(1).agregarVisitante();
+				atraccionesDisponibles.get(1).agregarVisitante(1);
 				
 				sugerencia.generarSugerenciaConAtraccionesPorMenorCosto(atraccionesDisponibles, turista);
 				

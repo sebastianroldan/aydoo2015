@@ -38,8 +38,8 @@ public class PromocionAbsoluta implements Promocion{
 	
 		@Override
 		public void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
-				montoADescontar =  this.costoAtraccionesSinDescuento() - this.costoPorPromocion;
-				sugerencia.setCostoFinal(montoADescontar);		
+				montoADescontar =  (this.costoAtraccionesSinDescuento() - this.costoPorPromocion)*turista.getGrupoFamiliar();
+				sugerencia.aplicarDescuentoACostoFinal(montoADescontar);		
 			
 		}
 		

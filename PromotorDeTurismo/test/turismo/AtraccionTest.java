@@ -74,7 +74,7 @@ public class AtraccionTest {
 				
 				Assert.assertEquals(0, visitantes);
 				
-				this.atraccion.agregarVisitante();
+				this.atraccion.agregarVisitante(1);
 				
 				visitantes = this.atraccion.getCantidadDeVisitantes();
 				
@@ -85,15 +85,13 @@ public class AtraccionTest {
 		@Test
 		public void agregarVisitanteConCupoLlenoTest(){
 			
-				for (int i=0; i < 15; i++){
-						this.atraccion.agregarVisitante();
-				}
-				
+				this.atraccion.agregarVisitante(15);
+								
 				int cantidadDeVisitantes = this.atraccion.getCantidadDeVisitantes();
 				
 				Assert.assertEquals(15, cantidadDeVisitantes);
 				
-				this.atraccion.agregarVisitante();
+				this.atraccion.agregarVisitante(10);
 				
 				cantidadDeVisitantes = this.atraccion.getCantidadDeVisitantes();
 				

@@ -28,7 +28,7 @@ public class PromocionTest {
 		private Atraccion comarca;
 		private Atraccion rohan;
 		private Atraccion isengard;
-		private Turista turista = new Turista("Pablo", 1950, 600, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500));
+		private Turista turista = new Turista("Pablo", 1950, 600, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500),1);
 		
 		
 		@Before
@@ -128,7 +128,7 @@ public class PromocionTest {
 		
 		@Test
 		public void alAplicarPromoAxBNoDebeAgregarComarcaPorFaltaDeTiempoTest(){
-				Turista turista2 = new Turista("Sergio", 1950, 270, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500));
+				Turista turista2 = new Turista("Sergio", 1950, 270, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500),1);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(rohan);
@@ -146,7 +146,7 @@ public class PromocionTest {
 		
 		@Test
 		public void alAplicarPromoPorcentualDebeDescontar600Test(){
-				Turista turista3 = new Turista("Juan", 2300, 600, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500));
+				Turista turista3 = new Turista("Juan", 2300, 600, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500),1);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
 				atraccionesDisponibles.add(moria);

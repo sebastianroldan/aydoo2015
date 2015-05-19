@@ -39,8 +39,8 @@ public class PromocionPorcentual implements Promocion{
 	
 		@Override
 		public void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
-				montoADescontar = costoAtraccionesSinDescuento()*(porcentaje/100); 				
-				sugerencia.setCostoFinal(montoADescontar);		
+				montoADescontar = (this.costoAtraccionesSinDescuento()*(porcentaje/100)*turista.getGrupoFamiliar()); 				
+				sugerencia.aplicarDescuentoACostoFinal(montoADescontar);		
 		}
 	
 	

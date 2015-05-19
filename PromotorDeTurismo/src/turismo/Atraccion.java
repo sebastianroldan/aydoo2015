@@ -80,14 +80,14 @@ public class Atraccion {
 				return this.cantidadDeVisitantes;
 		}
 		
-		public void agregarVisitante(){
-				if (this.hayCupo()){
-						this.cantidadDeVisitantes++;
+		public void agregarVisitante(int nuevasVisitas){
+				if (this.hayCupo(nuevasVisitas)){						
+						this.cantidadDeVisitantes = this.cantidadDeVisitantes + nuevasVisitas;						
 				}
 		}
 	
-		public boolean hayCupo() {
-				return this.getCupoMaximo() > this.getCantidadDeVisitantes();
+		public boolean hayCupo(int nuevasVisitas) {
+				return this.getCupoMaximo() >= (this.getCantidadDeVisitantes()+nuevasVisitas);
 		}
 		
 		@Override

@@ -18,7 +18,7 @@ public class Sugerencia {
 			
 			return (alcanzaPresupuestoPara(proximaAtraccion, turista) 
 						&& (alcanzaTiempoPara(proximaAtraccion, turista) 
-								&& (proximaAtraccion.hayCupo())));
+								&& (proximaAtraccion.hayCupo(turista.getGrupoFamiliar()))));
 		}
 	
 	
@@ -52,20 +52,20 @@ public class Sugerencia {
 		}
 		
 		private boolean alcanzaPresupuestoPara(Atraccion atraccion, Turista turista){
-			
-				return atraccion.getCostoDeAtraccion() + this.getCostoTotalSinPromociones()
-										<= turista.getPresupuesto();
+
+				return ((atraccion.getCostoDeAtraccion() + this.getCostoTotalSinPromociones()*turista.getGrupoFamiliar())
+										<= turista.getPresupuesto());
 		}
 		
-		public void setCostoFinal(double montoAdescontar){
-				this.costoFinal = this.getCostoTotalSinPromociones() - montoAdescontar;
+		public void aplicarDescuentoACostoFinal(double montoAdescontar){
+				this.costoFinal = this.costoFinal - montoAdescontar;
 		}
 		
 		public double getCostoFinal(){
 				return costoFinal;
 		}
 		
-		private double getCostoTotalSinPromociones(){
+		public double getCostoTotalSinPromociones(){
 				double costoTotal = 0;
 				
 				for (Atraccion atraccionActual: sugerencia){
@@ -76,6 +76,9 @@ public class Sugerencia {
 		}
 		
 		
+		public void setCostoFinal(double costo){
+			this.costoFinal = costo;
+		}
 		
 		public double getTiempoTotal(int velocidadDeTraslado){		
 				double tiempoTotal = 0;
@@ -94,48 +97,46 @@ public class Sugerencia {
 				return tiempoTotal;
 		}
 	
-		public void generarSugerenciaConAtraccionesPorMenorCosto(
-									List<Atraccion> atraccionesDisponibles, Turista turista){
-			
-				Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorCostoMenor());				
-				this.generarSugerencia(atraccionesDisponibles, turista);				
-		}
-		
-		public void generarSugerenciaConAtraccionesPorTiempoDisponible(
-									List<Atraccion> atraccionesDisponibles, Turista turista) {
-			
-				Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorMenorTiempo());
-				this.generarSugerencia(atraccionesDisponibles, turista);
-		}
-		
 		public void generarSugerenciaConAtraccionesPorPreferencia(
-									List<Atraccion> atraccionesDisponibles, Turista turista) {
+									List<Atraccion> atraccionesDisponibles, Turista turista) {			
 				for (Atraccion proximaAtraccion: atraccionesDisponibles){			
 						if (puedeHacer(proximaAtraccion, turista) && (proximaAtraccion.getTipoAtraccion()==turista.getPreferencia()) ){				
-								proximaAtraccion.agregarVisitante();				
-								sugerencia.add(proximaAtraccion);									
+								sugerencia.add(proximaAtraccion);	
 						}
 				}
-				this.setCostoFinal(0);
+				this.costoFinal = this.getCostoTotalSinPromociones();
 
-		}
-		
-		public void generarSugerenciaConAtraccionesMasCostosas(
-						List<Atraccion> listaDeAtracciones, Turista turista) {
-			
-				Collections.sort(listaDeAtracciones, new OrdenadorDeAtraccionesPorCostoMayor());
-				this.generarSugerencia(listaDeAtracciones, turista);		
 		}
 		
 		public void generarSugerencia(List<Atraccion> atraccionesDisponibles, Turista turista){
 			
 				for (Atraccion proximaAtraccion : atraccionesDisponibles){
-						if (puedeHacer(proximaAtraccion, turista)){
-								proximaAtraccion.agregarVisitante();
+						if (puedeHacer(proximaAtraccion, turista)){						
 								sugerencia.add(proximaAtraccion);										
 						}
 				}				
-				this.setCostoFinal(0);
+				this.costoFinal = this.getCostoTotalSinPromociones();
+		}
+		
+		public void generarSugerenciaConAtraccionesMasCostosas(
+						List<Atraccion> listaDeAtracciones, Turista turista) {
+	
+				Collections.sort(listaDeAtracciones, new OrdenadorDeAtraccionesPorCostoMayor());
+				this.generarSugerencia(listaDeAtracciones, turista);		
+		}
+		
+		public void generarSugerenciaConAtraccionesPorMenorCosto(
+						List<Atraccion> atraccionesDisponibles, Turista turista){
+
+				Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorCostoMenor());				
+				this.generarSugerencia(atraccionesDisponibles, turista);				
+		}
+		
+		public void generarSugerenciaConAtraccionesPorTiempoDisponible(
+						List<Atraccion> atraccionesDisponibles, Turista turista) {
+		
+				Collections.sort(atraccionesDisponibles, new OrdenadorDeAtraccionesPorMenorTiempo());
+				this.generarSugerencia(atraccionesDisponibles, turista);
 		}
 		
 		public List<Atraccion> getListaDeAtracciones(){
@@ -143,7 +144,7 @@ public class Sugerencia {
 		}
 		
 		public void agregarAtraccionExtra(Atraccion atraccionExtra, Turista turista){
-				if (puedeHacer(atraccionExtra, turista)){
+				if (alcanzaTiempoPara(atraccionExtra, turista) && atraccionExtra.hayCupo(turista.getGrupoFamiliar())){
 						sugerencia.add(atraccionExtra);
 				}
 		}
