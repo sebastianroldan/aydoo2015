@@ -9,8 +9,8 @@ public class PromocionExtranjero{
 				boolean esAplicable = !sugerencia.getListaDeAtracciones().isEmpty();
 				while (iteradorAtracciones.hasNext() && esAplicable){
 						Atraccion atraccionActual = iteradorAtracciones.next();
-						esAplicable = (turista.getCoordenada().calcularDistanciaDesdeEstaCoordenada(
-																atraccionActual.getCoordenadas())  > 200);																
+						esAplicable = (turista.getCoordenada().
+							calcularDistanciaDesdeEstaCoordenada(atraccionActual.getCoordenadas())  > 200);																
 				}
 				return esAplicable;
 		}
