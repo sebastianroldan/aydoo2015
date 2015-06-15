@@ -16,43 +16,21 @@ public class PromotorDeTurismo {
 				this.promociones = new HashSet<Promocion>();			
 		}
 		
-		private void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
-				PromocionExtranjero promoExtranjero = new PromocionExtranjero();
+		private void aplicarPromociones(Sugerencia sugerencia, Turista turista) {
+				Promocion promoExtranjero = new PromocionExtranjero();
 				if (promoExtranjero.esAplicableLaPromocion(sugerencia, turista)){
-						promoExtranjero.aplicarPromocion(sugerencia);
+						promoExtranjero.aplicarPromocion(sugerencia, turista);
 				
-				}else{
-						aplicarPaqueteFamiliar(sugerencia, turista);
+				}else{						
 						for (Promocion promo: this.promociones){						
 								
-								if (promo.esAplicableLaPromocion(sugerencia)){
+								if (promo.esAplicableLaPromocion(sugerencia, turista)){
 										promo.aplicarPromocion(sugerencia, turista);								
 								}
 						}						
 				}
 		}
-	
-		private void aplicarPaqueteFamiliar(Sugerencia sugerencia,Turista turista) {
-				double descuentoGrupal = 0;
-				double descuentoIndividual = 0;
-				int personasCon30PorcientoDeDescuento = turista.getGrupoFamiliar() - 4;
-				
-				sugerencia.setCostoFinal(sugerencia.getCostoFinal()*turista.getGrupoFamiliar());
-				
-				if (turista.getGrupoFamiliar() >= 4){						
-				
-						descuentoIndividual = sugerencia.getCostoTotalSinPromociones()*0.10;						
-						descuentoGrupal = descuentoIndividual*4;
-						sugerencia.aplicarDescuentoACostoFinal(descuentoGrupal);
-				}
-				if (personasCon30PorcientoDeDescuento > 0){
-					
-						descuentoIndividual = sugerencia.getCostoTotalSinPromociones()*0.30;
-						descuentoGrupal = descuentoIndividual*personasCon30PorcientoDeDescuento;
-						sugerencia.aplicarDescuentoACostoFinal(descuentoGrupal);			
-				}
-		}
-
+			
 		private Sugerencia generarSugerencia(Turista turista, int i) {
 				Sugerencia sugerencia = new Sugerencia();			
 				switch (i) {
@@ -84,7 +62,7 @@ public class PromotorDeTurismo {
 				
 				for (int i=0; i < 5; i++){
 							sugerencias[i] = generarSugerencia(turista, i);
-							aplicarPromocion(sugerencias[i], turista);
+							aplicarPromociones(sugerencias[i], turista);
 				}
 				return sugerencias;
 		}

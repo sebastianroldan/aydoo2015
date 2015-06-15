@@ -25,7 +25,7 @@ public class SugerenciaTest {
 		@Before
 		public void ejecutarAntesDeTest(){
 			
-				turista = new Turista("Pablo", 1950, 300, 15, TipoDeAtraccion.AVENTURA, new Coordenada(100,500),1);
+				turista = new Turista("Pablo", 1950, 300, 15, TipoDeAtraccion.AVENTURA, new Domicilio(100,500),1);
 				sugerencia = new Sugerencia();
 				atraccionesDisponibles = new LinkedList<Atraccion>();						
 		
@@ -41,6 +41,24 @@ public class SugerenciaTest {
 				sugerencia.generarSugerenciaConAtraccionesPorMenorCosto(atraccionesDisponibles, turista);
 								
 				Assert.assertEquals(300, sugerencia.getCostoFinal(), 0);
+		}
+		
+		
+		@Test
+		public void costoFinalDeberiaSer500Test(){
+			
+			sugerencia.setCostoFinal(500);
+			
+			Assert.assertEquals(500,sugerencia.getCostoFinal(),0);
+		}
+		
+		@Test
+		public void deberiaAplicarseUnDescuentoAlCostoFinalDe200Test(){
+			
+			sugerencia.setCostoFinal(500);
+			sugerencia.aplicarDescuentoACostoFinal(200);
+			
+			Assert.assertEquals(300,sugerencia.getCostoFinal(),0);
 		}
 		
 		@Test
@@ -122,4 +140,30 @@ public class SugerenciaTest {
 				Assert.assertEquals(moria, sugerencia.getListaDeAtracciones().get(1));
 				Assert.assertEquals(2, sugerencia.getListaDeAtracciones().size());
 		}	
+		
+		@Test
+		public void deberiaAgregarAtraccionExtraALaSugerenciaTest(){
+				Sugerencia sugerencia2= new Sugerencia();
+				sugerencia2.agregarAtraccionExtra(comarca, turista);
+				
+				Assert.assertEquals(1,sugerencia2.getListaDeAtracciones().size());
+				Assert.assertEquals(comarca,sugerencia2.getListaDeAtracciones().get(0));			
+		}
+		
+		@Test
+		public void noDeberiaAgregarAtraccionExtraPorNoHaberCupoTest(){
+				Sugerencia sugerencia2= new Sugerencia();
+				comarca.setCupoMaximo(1);
+				comarca.agregarVisitante(1);
+				sugerencia2.agregarAtraccionExtra(comarca, turista);				
+				Assert.assertEquals(0,sugerencia2.getListaDeAtracciones().size());
+		}
+		
+		@Test
+		public void noDeberiaAgregarAtraccionExtraPorNoTenerTiempoTest(){
+				Sugerencia sugerencia2= new Sugerencia();
+				comarca.setTiempoNecesario(5000);;				
+				sugerencia2.agregarAtraccionExtra(comarca, turista);				
+				Assert.assertEquals(0,sugerencia2.getListaDeAtracciones().size());
+		}
 }

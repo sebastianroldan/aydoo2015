@@ -14,55 +14,8 @@ public class Sugerencia {
 				this.costoFinal = 0;
 		}
 		
-		private boolean puedeHacer(Atraccion proximaAtraccion, Turista turista) {
-			
-			return (alcanzaPresupuestoPara(proximaAtraccion, turista) 
-						&& (alcanzaTiempoPara(proximaAtraccion, turista) 
-								&& (proximaAtraccion.hayCupo(turista.getGrupoFamiliar()))));
-		}
-	
-	
-		private boolean alcanzaTiempoPara(Atraccion atraccion, Turista turista) {
-			
-				double tiempoDeTraslado = calcularTiempoDeViajeHastaLaProximaAtraccion(
-												turista.getVelocidadDeTraslado(),atraccion.getCoordenadas(), turista.getCoordenada());
-				
-				double tiempoTotalTranscurrido = this.getTiempoTotal(turista.getVelocidadDeTraslado());
-				
-				return tiempoDeTraslado+atraccion.getTiempoNecesario()+tiempoTotalTranscurrido 
-												<= turista.getTiempoDisponible();
-		}
-	
-	
-		private double calcularTiempoDeViajeHastaLaProximaAtraccion(int velocidadDeTraslado,  
-													Coordenada proximoPunto, Coordenada ubicacionDelTurista) {
-			
-				double tiempo = 0; 
-				double distancia = 0;
-				Coordenada ultimoPuntoRecorrido = ubicacionDelTurista;
-			
-				if (!this.sugerencia.isEmpty()){
-			
-						ultimoPuntoRecorrido = this.sugerencia.get(this.sugerencia.size()-1).getCoordenadas();
-				}
-			
-				distancia = proximoPunto.calcularDistanciaDesdeEstaCoordenada(ultimoPuntoRecorrido);
-				tiempo = distancia/velocidadDeTraslado;
-				return tiempo;
-		}
-		
-		private boolean alcanzaPresupuestoPara(Atraccion atraccion, Turista turista){
-
-				return ((atraccion.getCostoDeAtraccion() + this.getCostoTotalSinPromociones()*turista.getGrupoFamiliar())
-										<= turista.getPresupuesto());
-		}
-		
-		public void aplicarDescuentoACostoFinal(double montoAdescontar){
-				this.costoFinal = this.costoFinal - montoAdescontar;
-		}
-		
 		public double getCostoFinal(){
-				return costoFinal;
+			return costoFinal;
 		}
 		
 		public double getCostoTotalSinPromociones(){
@@ -74,8 +27,7 @@ public class Sugerencia {
 				}
 				return costoTotal; 
 		}
-		
-		
+			
 		public void setCostoFinal(double costo){
 			this.costoFinal = costo;
 		}
@@ -96,26 +48,47 @@ public class Sugerencia {
 				}		
 				return tiempoTotal;
 		}
+		
+		public double calcularTiempoDeViajeHastaLaProximaAtraccion(int velocidadDeTraslado,  
+													Coordenada proximoPunto, Coordenada ubicacionDelTurista) {
+			
+				double tiempo = 0; 
+				double distancia = 0;
+				Coordenada ultimoPuntoRecorrido = ubicacionDelTurista;
+			
+				if (!this.sugerencia.isEmpty()){
+			
+						ultimoPuntoRecorrido = this.sugerencia.get(this.sugerencia.size()-1).getCoordenadas();
+				}
+			
+				distancia = proximoPunto.calcularDistanciaDesdeEstaCoordenada(ultimoPuntoRecorrido);
+				tiempo = distancia/velocidadDeTraslado;
+				return tiempo;
+		}
+				
+		public void aplicarDescuentoACostoFinal(double montoAdescontar){
+				this.costoFinal = this.costoFinal - montoAdescontar;
+		}
 	
 		public void generarSugerenciaConAtraccionesPorPreferencia(
 									List<Atraccion> atraccionesDisponibles, Turista turista) {			
 				for (Atraccion proximaAtraccion: atraccionesDisponibles){			
-						if (puedeHacer(proximaAtraccion, turista) && (proximaAtraccion.getTipoAtraccion()==turista.getPreferencia()) ){				
+						if (turista.puedeHacer(proximaAtraccion, this) && (proximaAtraccion.getTipoAtraccion()==turista.getPreferencia()) ){				
 								sugerencia.add(proximaAtraccion);	
 						}
 				}
-				this.costoFinal = this.getCostoTotalSinPromociones();
+				this.costoFinal = this.getCostoTotalSinPromociones()*turista.getCantidadDeIntegrantesGrupoFamiliar();
 
 		}
 		
 		public void generarSugerencia(List<Atraccion> atraccionesDisponibles, Turista turista){
 			
 				for (Atraccion proximaAtraccion : atraccionesDisponibles){
-						if (puedeHacer(proximaAtraccion, turista)){						
+						if (turista.puedeHacer(proximaAtraccion, this)){						
 								sugerencia.add(proximaAtraccion);										
 						}
 				}				
-				this.costoFinal = this.getCostoTotalSinPromociones();
+				this.costoFinal = this.getCostoTotalSinPromociones()*turista.getCantidadDeIntegrantesGrupoFamiliar();
 		}
 		
 		public void generarSugerenciaConAtraccionesMasCostosas(
@@ -144,7 +117,7 @@ public class Sugerencia {
 		}
 		
 		public void agregarAtraccionExtra(Atraccion atraccionExtra, Turista turista){
-				if (alcanzaTiempoPara(atraccionExtra, turista) && atraccionExtra.hayCupo(turista.getGrupoFamiliar())){
+				if (turista.alcanzaTiempoPara(atraccionExtra, this) && atraccionExtra.hayCupo(turista.getCantidadDeIntegrantesGrupoFamiliar())){
 						sugerencia.add(atraccionExtra);
 				}
 		}

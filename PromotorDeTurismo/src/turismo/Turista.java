@@ -7,27 +7,27 @@ public class Turista {
 		private int tiempoDisponible;
 		private int velocidadDeTraslado;
 		private TipoDeAtraccion preferencia;
-		private Coordenada coordenada;
-		private int grupoFamiliar = 1;
+		private Domicilio direccion;
+		private int cantidadDeIntegrantesGrupoFamiliar = 1;
 		
 		public Turista(String nombre, double presupuesto, int tiempoDisponible,
-								int velocidadDeTraslado, TipoDeAtraccion preferencia, Coordenada coordenada, int grupoFamiliar) {
+								int velocidadDeTraslado, TipoDeAtraccion preferencia, Domicilio direccion, int cantidadDeIntegrantesDeGrupoFamiliar) {
 			
 				this.setNombre(nombre);
 				this.setPresupuesto(presupuesto);
 				this.setTiempoDisponible(tiempoDisponible);
 				this.setVelocidadDeTraslado(velocidadDeTraslado);
 				this.setPreferencia(preferencia);
-				this.setCoordenada(coordenada);
-				this.setGrupoFamiliar(grupoFamiliar);
+				this.setDireccion(direccion);
+				this.setCantidadDeIntegrantesGrupoFamiliar(cantidadDeIntegrantesDeGrupoFamiliar);
 		}
 	
-		public void setGrupoFamiliar(int cantidadDePersonas){
-			this.grupoFamiliar = cantidadDePersonas;
+		public void setCantidadDeIntegrantesGrupoFamiliar(int cantidadDePersonas){
+			this.cantidadDeIntegrantesGrupoFamiliar = cantidadDePersonas;
 		}
 		
-		public int getGrupoFamiliar(){
-			return this.grupoFamiliar;
+		public int getCantidadDeIntegrantesGrupoFamiliar(){
+			return this.cantidadDeIntegrantesGrupoFamiliar;
 		}
 		
 		public double getPresupuesto() {
@@ -70,12 +70,36 @@ public class Turista {
 				this.nombre = nombre;
 		}
 
-		public Coordenada getCoordenada() {			
-			return this.coordenada;
+		public Domicilio getDireccion() {			
+			return this.direccion;
 		}	
 		
-		public void setCoordenada(Coordenada coordenada) {			
-			this.coordenada = coordenada;
+		public void setDireccion(Domicilio direccion) {			
+			this.direccion = direccion;
+		}
+		
+		public boolean puedeHacer(Atraccion proximaAtraccion, Sugerencia sugerencia) {
+			
+			return (alcanzaPresupuestoPara(proximaAtraccion, sugerencia) 
+						&& (alcanzaTiempoPara(proximaAtraccion, sugerencia) 
+								&& (proximaAtraccion.hayCupo(this.getCantidadDeIntegrantesGrupoFamiliar()))));
+		}
+		
+		public boolean alcanzaTiempoPara(Atraccion proximaAtraccion, Sugerencia sugerencia) {
+			
+			double tiempoDeTraslado = sugerencia.calcularTiempoDeViajeHastaLaProximaAtraccion(
+											this.getVelocidadDeTraslado(),proximaAtraccion.getCoordenadas(), this.getDireccion().getCoordenada());
+			
+			double tiempoTotalTranscurrido = sugerencia.getTiempoTotal(this.getVelocidadDeTraslado());
+			
+			return tiempoDeTraslado+proximaAtraccion.getTiempoNecesario()+tiempoTotalTranscurrido 
+											<= this.getTiempoDisponible();
+		}
+
+		public boolean alcanzaPresupuestoPara(Atraccion proximaAtraccion, Sugerencia sugerencia){
+
+			return ((proximaAtraccion.getCostoDeAtraccion() + sugerencia.getCostoTotalSinPromociones())*this.getCantidadDeIntegrantesGrupoFamiliar()
+									<= this.getPresupuesto());
 		}
 		
 }

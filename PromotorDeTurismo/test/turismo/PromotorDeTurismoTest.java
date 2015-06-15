@@ -27,7 +27,7 @@ public class PromotorDeTurismoTest {
 				promotor.agregarAtraccion(mordor);
 				promotor.agregarAtraccion(gondor);
 				
-				Turista turista = new Turista("Marcos", 3000, 300, 15, TipoDeAtraccion.DEGUSTACION, new Coordenada(100,500),1);
+				Turista turista = new Turista("Marcos", 3000, 300, 15, TipoDeAtraccion.DEGUSTACION, new Domicilio(100,500),1);
 				
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);		
@@ -43,7 +43,7 @@ public class PromotorDeTurismoTest {
 				promotor.agregarAtraccion(mordor);
 				promotor.agregarAtraccion(gondor);
 				
-				Turista turista = new Turista("Marcos", 3000, 430, 30, TipoDeAtraccion.DEGUSTACION, new Coordenada(100,500),1);
+				Turista turista = new Turista("Marcos", 3000, 430, 30, TipoDeAtraccion.DEGUSTACION, new Domicilio(100,500),1);
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				
 				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);
@@ -72,7 +72,7 @@ public class PromotorDeTurismoTest {
 				atracciones.add(comarca);
 				atracciones.add(mordor);
 				
-				Turista turista = new Turista("Marcos", 3000, 5000, 30, TipoDeAtraccion.AVENTURA, new Coordenada(0,500),1);								
+				Turista turista = new Turista("Marcos", 3000, 5000, 30, TipoDeAtraccion.AVENTURA, new Domicilio(0,500),1);								
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				
 				Promocion promoAxB = new PromocionAxB(atracciones, gondor);
@@ -89,13 +89,13 @@ public class PromotorDeTurismoTest {
 		}
 		
 		@Test
-		public void sugerenciaConGrupoFamiliarDe3NoAplicaPaqueteFamiliarTest(){		
+		public void sugerenciaConGrupoFamiliarDe3NoAplicaPaqueteFamiliarPeroSiPromoAxBTest(){		
 			
 				
 				Atraccion comarca = new Atraccion("La Comarca",new Coordenada(0,100), 600, 120, 15, TipoDeAtraccion.AVENTURA);
 				Atraccion mordor = new Atraccion("Mordor",new Coordenada(0,50), 400, 60, 3, TipoDeAtraccion.AVENTURA);
-				Atraccion gondor = new Atraccion("Gondor",new Coordenada(0,150), 580, 180, 10, TipoDeAtraccion.PAISAJE);
-						
+				Atraccion gondor = new Atraccion("Gondor",new Coordenada(0,150), 580, 180, 10, TipoDeAtraccion.PAISAJE);				
+				
 				promotor = new PromotorDeTurismo();
 				promotor.agregarAtraccion(comarca);
 				promotor.agregarAtraccion(mordor);				
@@ -105,11 +105,14 @@ public class PromotorDeTurismoTest {
 				atracciones.add(comarca);
 				atracciones.add(mordor);
 				
-				Turista turista = new Turista("Marcos", 5000, 5000, 50, TipoDeAtraccion.AVENTURA, new Coordenada(0,100),3);								
+				Turista turista = new Turista("Marcos", 5000, 5000, 50, TipoDeAtraccion.AVENTURA, new Domicilio(0,100),3);								
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				
 				Promocion promoAxB = new PromocionAxB(atracciones, gondor);
-				promotor.agregarPromocion(promoAxB);
+				Promocion promoFamiliar = new PromocionPaqueteFamiliar();
+				
+				promotor.agregarPromocion(promoFamiliar);
+				promotor.agregarPromocion(promoAxB);				
 				
 				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);
 				
@@ -123,7 +126,7 @@ public class PromotorDeTurismoTest {
 		}
 		
 		@Test
-		public void sugerenciaConGrupoFamiliarDe4AplicaPaqueteFamiliar10DeDescuentoTest(){		
+		public void sugerenciaParaGrupoFamiliarDe4AplicaPaqueteFamiliarMasAxBTest(){		
 			
 				
 				Atraccion comarca = new Atraccion("La Comarca",new Coordenada(0,100), 600, 120, 15, TipoDeAtraccion.AVENTURA);
@@ -139,11 +142,15 @@ public class PromotorDeTurismoTest {
 				atracciones.add(comarca);
 				atracciones.add(mordor);
 				
-				Turista turista = new Turista("Marcos", 4000, 5000, 50, TipoDeAtraccion.AVENTURA, new Coordenada(0,100),4);								
+				Turista turista = new Turista("Marcos", 4000, 5000, 50, TipoDeAtraccion.AVENTURA, new Domicilio(0,100),4);								
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				
 				Promocion promoAxB = new PromocionAxB(atracciones, gondor);
+				Promocion promoFamiliar = new PromocionPaqueteFamiliar();
+				
+				
 				promotor.agregarPromocion(promoAxB);
+				promotor.agregarPromocion(promoFamiliar);
 				
 				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);
 				
@@ -157,7 +164,7 @@ public class PromotorDeTurismoTest {
 		}
 		
 		@Test
-		public void sugerenciaConGrupoFamiliarDe6Aplica10Y30DeDescuentoTest(){		
+		public void sugerenciaConGrupoFamiliarDe6Aplica10Y30DeDescuentoMasAxBTest(){		
 			
 				
 				Atraccion comarca = new Atraccion("La Comarca",new Coordenada(0,100), 600, 120, 15, TipoDeAtraccion.AVENTURA);
@@ -173,10 +180,13 @@ public class PromotorDeTurismoTest {
 				atracciones.add(comarca);
 				atracciones.add(mordor);
 				
-				Turista turista = new Turista("Marcos", 6000, 5000, 50, TipoDeAtraccion.AVENTURA, new Coordenada(0,100),6);								
+				Turista turista = new Turista("Marcos", 6000, 5000, 50, TipoDeAtraccion.AVENTURA, new Domicilio(0,100),6);								
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				
 				Promocion promoAxB = new PromocionAxB(atracciones, gondor);
+				Promocion promoFamiliar = new PromocionPaqueteFamiliar();
+				
+				promotor.agregarPromocion(promoFamiliar);
 				promotor.agregarPromocion(promoAxB);
 				
 				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);
@@ -207,10 +217,13 @@ public class PromotorDeTurismoTest {
 				atracciones.add(comarca);
 				atracciones.add(mordor);
 				
-				Turista turista = new Turista("Marcos", 7200, 5000, 50, TipoDeAtraccion.AVENTURA, new Coordenada(0,100),6);								
+				Turista turista = new Turista("Marcos", 7200, 5000, 50, TipoDeAtraccion.AVENTURA, new Domicilio(0,100),6);								
 				Sugerencia[] sugerenciasParaTurista = new Sugerencia[5];
 				
 				Promocion promoAbsoluta = new PromocionAbsoluta(atracciones, 950);
+				Promocion promoFamiliar = new PromocionPaqueteFamiliar();
+				
+				promotor.agregarPromocion(promoFamiliar);
 				promotor.agregarPromocion(promoAbsoluta);
 				
 				sugerenciasParaTurista = promotor.sugerirListaDeItinerarios(turista);

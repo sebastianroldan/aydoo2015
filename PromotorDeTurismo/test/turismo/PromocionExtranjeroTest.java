@@ -22,18 +22,20 @@ public class PromocionExtranjeroTest {
 		}
 		
 		@Test
-		public void aplicarPromocionExtranjeroTest(){
+		public void deberiaDescontar50PorcientoAlAplicarLaPromocionTest(){
 			
-				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,199),1);
+				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Domicilio(0,199),1);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 			
-				atraccionesDisponibles.add(moria);
+				
 				moria.setCoordenadas(new Coordenada(0, 50));
-				atraccionesDisponibles.add(mordor);
-				moria.setCoordenadas(new Coordenada(0, 80));
-				atraccionesDisponibles.add(gondor);		
-				moria.setCoordenadas(new Coordenada(0, 100));
-				PromocionExtranjero promoExtranjero = new PromocionExtranjero();
+				atraccionesDisponibles.add(moria);
+				mordor.setCoordenadas(new Coordenada(0, 80));
+				atraccionesDisponibles.add(mordor);		
+				gondor.setCoordenadas(new Coordenada(0, 100));
+				atraccionesDisponibles.add(gondor);
+				
+				Promocion promoExtranjero = new PromocionExtranjero();
 		
 				Sugerencia sugerencia = new Sugerencia();				
 				
@@ -41,24 +43,26 @@ public class PromocionExtranjeroTest {
 				
 				Assert.assertEquals(2000,sugerencia.getCostoFinal(),0);
 				
-				promoExtranjero.aplicarPromocion(sugerencia);
+				promoExtranjero.aplicarPromocion(sugerencia, turista3);
 				
 				Assert.assertEquals(1000,sugerencia.getCostoFinal(),0);
 		}
 		
 		@Test
-		public void noAplicarPromocionExtranjeroSiEstaAMenosDe200KMTest(){
+		public void noDeberiaSerAplicablePromocionExtranjeroSiEstaAMenosDe200KMTest(){
 				
-				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,150),1);
+				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Domicilio(0,150),1);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
-			
-				atraccionesDisponibles.add(moria);
-				moria.setCoordenadas(new Coordenada(0, 600));
-				atraccionesDisponibles.add(mordor);
-				moria.setCoordenadas(new Coordenada(0, 500));
-				atraccionesDisponibles.add(gondor);		
+				
 				moria.setCoordenadas(new Coordenada(0, 10));
-				PromocionExtranjero promoExtranjero = new PromocionExtranjero();
+				atraccionesDisponibles.add(moria);
+				mordor.setCoordenadas(new Coordenada(0, 600));
+				atraccionesDisponibles.add(mordor);
+				gondor.setCoordenadas(new Coordenada(0, 500));
+				atraccionesDisponibles.add(gondor);		
+				
+				
+				Promocion promoExtranjero = new PromocionExtranjero();
 		
 				Sugerencia sugerencia = new Sugerencia();				
 				
@@ -68,18 +72,19 @@ public class PromocionExtranjeroTest {
 		}
 		
 		@Test
-		public void aplicarPromocionExtranjeroSiEstaAMasDe200KMTest(){
+		public void deberiaSeraplicablePromocionExtranjeroSiEstaAMasDe200KMTest(){
 					
-				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Coordenada(0,150),1);
+				Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Domicilio(0,150),1);
 				List<Atraccion> atraccionesDisponibles = new LinkedList<Atraccion>();
 				
-				atraccionesDisponibles.add(moria);
-				moria.setCoordenadas(new Coordenada(0, 600));
-				atraccionesDisponibles.add(mordor);
-				moria.setCoordenadas(new Coordenada(0, 500));
-				atraccionesDisponibles.add(gondor);		
 				moria.setCoordenadas(new Coordenada(0, 351));
-				PromocionExtranjero promoExtranjero = new PromocionExtranjero();
+				atraccionesDisponibles.add(moria);
+				mordor.setCoordenadas(new Coordenada(0, 600));
+				atraccionesDisponibles.add(mordor);
+				gondor.setCoordenadas(new Coordenada(0, 500));
+				atraccionesDisponibles.add(gondor);		
+				
+				Promocion promoExtranjero = new PromocionExtranjero();
 		
 				Sugerencia sugerencia = new Sugerencia();				
 				
@@ -88,5 +93,17 @@ public class PromocionExtranjeroTest {
 				Assert.assertTrue(promoExtranjero.esAplicableLaPromocion(sugerencia, turista3));
 		}
 		
+		@Test
+		public void noDeberiaSerAplicableSiLaSugerenciaNoTieneAtraccionesTest(){
+			
+			Sugerencia sugerencia = new Sugerencia();				
+			
+			Turista turista3 = new Turista("Jose", 2500, 1200, 40, TipoDeAtraccion.AVENTURA, new Domicilio(0,150),1);
+			
+			Promocion promoExtranjero = new PromocionExtranjero();
+			
+			Assert.assertFalse(promoExtranjero.esAplicableLaPromocion(sugerencia, turista3));
+			
+		} 
 
 }

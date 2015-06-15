@@ -98,4 +98,18 @@ public class AtraccionTest {
 				Assert.assertEquals(15, cantidadDeVisitantes);
 		}
 		
+		@Test
+		public void hayCupoDeberiaSerFalse(){
+			
+			Assert.assertFalse(this.atraccion.hayCupo(16));
+		}
+		
+		@Test
+		public void dosAtraccionesConMismoNombreDeberianSerIgualesTest(){
+			
+			Atraccion atraccion2 = new Atraccion("Lago rojo", new Coordenada(2,6), 500, 20, 1, TipoDeAtraccion.PAISAJE);
+			
+			Assert.assertEquals(atraccion,atraccion2);
+		}
+		
 }

@@ -14,38 +14,25 @@ public class PromocionPorcentual implements Promocion{
 				this.porcentaje = porcentaje;
 				this.atracciones = atracciones;
 		}
-			
-		
-		@Override
-		public void agregarAtraccion(Atraccion atraccionNueva) {
-				this.atracciones.add(atraccionNueva);		
-		}
 	
-		@Override
-		public List<Atraccion> getAtracciones() {			
-				return this.atracciones;		
-		}
-	
-		@Override
-		public double costoAtraccionesSinDescuento() {
+		private double costoAtraccionesSinDescuento() {
 				double costo = 0;
-			
+				
 				for (Atraccion atraccion : atracciones){
 						costo = costo + atraccion.getCostoDeAtraccion();
 				}
 				return costo;
-		}
-	
-	
+	    }
+		
 		@Override
 		public void aplicarPromocion(Sugerencia sugerencia, Turista turista) {
-				montoADescontar = (this.costoAtraccionesSinDescuento()*(porcentaje/100)*turista.getGrupoFamiliar()); 				
+				montoADescontar = (this.costoAtraccionesSinDescuento()*(porcentaje/100)*turista.getCantidadDeIntegrantesGrupoFamiliar()); 				
 				sugerencia.aplicarDescuentoACostoFinal(montoADescontar);		
 		}
 	
 	
 		@Override
-		public boolean esAplicableLaPromocion(Sugerencia sugerencia) {
+		public boolean esAplicableLaPromocion(Sugerencia sugerencia, Turista turista) {
 				Set<Atraccion> conjuntoDeAtracciones = new HashSet<Atraccion>();
 				conjuntoDeAtracciones.addAll(sugerencia.getListaDeAtracciones());
 				return (conjuntoDeAtracciones.containsAll(this.atracciones));
